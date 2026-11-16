@@ -3,573 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>টালি খাতা | ধার-দেনা ও বাকি-বকেয়ার হিসাব</title>
-    <!-- Tailwind CSS -->
+    <title>ডিজিটাল টালি খাতা</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Hind Siliguri for clean Bengali typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Font (Hind Siliguri) -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         body {
             font-family: 'Hind Siliguri', sans-serif;
-            background-color: #f3f4f6;
         }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
-        }
-        /* Print styling */
         @media print {
             .no-print {
                 display: none !important;
             }
-            body {
-                background-color: white;
-            }
-            .print-shadow-none {
-                box-shadow: none !important;
-                border: 1px solid #e5e7eb;
-            }
         }
     </style>
 </head>
-<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="bg-slate-100 min-h-screen text-slate-800">
 
-    <!-- Navbar -->
-    <header class="bg-indigo-700 text-white shadow-md sticky top-0 z-10 no-print">
-        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="bg-white text-indigo-700 p-2 rounded-xl shadow-sm">
-                    <i class="fa-solid fa-book-open text-xl"></i>
+    <!-- Header / Navbar -->
+    <header class="bg-indigo-600 text-white shadow-md no-print">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-white/10 p-2.5 rounded-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
                 </div>
                 <div>
-                    <h1 class="text-xl sm:text-2xl font-bold tracking-wide">ডিজিটাল টালি খাতা</h1>
-                    <p class="text-xs text-indigo-100">ধার-দেনা ও বাকি-বকেয়ার পূর্ণাঙ্গ শিট</p>
+                    <h1 class="text-2xl font-bold tracking-wide">ডিজিটাল টালি খাতা</h1>
+                    <p class="text-xs text-indigo-200">ধার-দেনা ও বাকি-বকেয়ার পূর্ণাঙ্গ শিট</p>
                 </div>
             </div>
-            <div class="flex space-x-2">
-                <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 shadow-sm">
-                    <i class="fa-solid fa-print"></i> <span class="hidden sm:inline">প্রিন্ট করুন</span>
+            <div class="flex items-center gap-2">
+                <button onclick="window.print()" class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                    প্রিন্ট করুন
                 </button>
-                <button onclick="openClearModal()" class="bg-rose-600 hover:bg-rose-500 text-white px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 shadow-sm">
-                    <i class="fa-solid fa-trash-can"></i> <span class="hidden sm:inline">সব মুছুন</span>
+                <button onclick="clearAllData()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 2 0 00-1-1h-4a1 2 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    সব মুছুন
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-6 space-y-6">
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 py-6 space-y-6">
 
-        <!-- ==================== DEBT / LOAN TRACKER (টালি খাতা) ==================== -->
-        <div id="section-debt" class="space-y-6">
-            <!-- Debt Summary Cards -->
-            <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Net Receivable/Payable -->
-                <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-2xl p-5 shadow-lg print-shadow-none relative overflow-hidden">
-                    <div class="relative z-10">
-                        <p class="text-indigo-200 text-sm font-medium">নিট পাওনা / দেনা অবস্থা</p>
-                        <h2 id="net-debt-balance" class="text-3xl font-bold mt-1">৳ ০.০০</h2>
-                        <p id="net-debt-status" class="text-xs text-indigo-300 mt-2">হিসাব সমান আছে</p>
-                    </div>
-                    <i class="fa-solid fa-hand-holding-dollar text-6xl text-white opacity-10 absolute right-4 bottom-2"></i>
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-slate-500 font-medium">মোট পাবো (ধার দেওয়া)</p>
+                    <h3 id="totalGiven" class="text-2xl font-bold text-blue-600 mt-1">৳ ০.০০</h3>
                 </div>
+                <div class="bg-blue-50 p-3 rounded-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                </div>
+            </div>
 
-                <!-- Total Pabo (Receivable) -->
-                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 print-shadow-none flex items-center justify-between">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-slate-500 font-medium">মোট দেবো (ধার নেওয়া)</p>
+                    <h3 id="totalTaken" class="text-2xl font-bold text-amber-600 mt-1">৳ ০.০০</h3>
+                </div>
+                <div class="bg-amber-50 p-3 rounded-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-slate-500 font-medium">নিট অবস্থা</p>
+                    <h3 id="netBalance" class="text-2xl font-bold text-emerald-600 mt-1">৳ ০.০০</h3>
+                </div>
+                <div class="bg-emerald-50 p-3 rounded-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Form & Search Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Left: Add Entry Form -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 no-print">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                    </svg>
+                    নতুন হিসাব যোগ করুন
+                </h2>
+                <form id="debtForm" onsubmit="addDebt(event)" class="space-y-4">
                     <div>
-                        <p class="text-slate-500 text-sm font-medium">মোট পাবো (মানুষের কাছে বাকি)</p>
-                        <h2 id="total-receivable" class="text-2xl sm:text-3xl font-bold text-blue-600 mt-1">৳ ০.০০</h2>
-                    </div>
-                    <div class="bg-blue-100 text-blue-600 p-3.5 rounded-2xl">
-                        <i class="fa-solid fa-user-plus text-2xl"></i>
-                    </div>
-                </div>
-
-                <!-- Total Dibo (Payable) -->
-                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 print-shadow-none flex items-center justify-between">
-                    <div>
-                        <p class="text-slate-500 text-sm font-medium">মোট দেবো (আমার দেনা/ধার)</p>
-                        <h2 id="total-payable" class="text-2xl sm:text-3xl font-bold text-amber-600 mt-1">৳ ০.০০</h2>
-                    </div>
-                    <div class="bg-amber-100 text-amber-600 p-3.5 rounded-2xl">
-                        <i class="fa-solid fa-user-minus text-2xl"></i>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Debt Form & List Grid -->
-            <div class="space-y-6">
-                
-                <!-- Top Section: Add Debt Form -->
-                <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 no-print">
-                    <h3 class="text-lg font-bold text-slate-800 border-b pb-3 mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-address-book text-indigo-600"></i> নতুন ধার-দেনার হিসাব যুক্ত করুন
-                    </h3>
-                    
-                    <form id="debt-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
-                        <!-- Debt Type Selector -->
-                        <div class="lg:col-span-4">
-                            <label class="block text-sm font-medium text-slate-700 mb-1">হিসাবের ধরন</label>
-                            <div class="grid grid-cols-2 gap-2">
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="debtType" value="pabo" class="peer sr-only" checked>
-                                    <div class="text-center py-2.5 px-2 rounded-xl border border-slate-200 peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 font-semibold transition flex items-center justify-center gap-1">
-                                        <span class="text-xs sm:text-sm"><i class="fa-solid fa-arrow-left"></i> পাবো (দিলাম)</span>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="debtType" value="dibo" class="peer sr-only">
-                                    <div class="text-center py-2.5 px-2 rounded-xl border border-slate-200 peer-checked:bg-amber-50 peer-checked:border-amber-500 peer-checked:text-amber-700 font-semibold transition flex items-center justify-center gap-1">
-                                        <span class="text-xs sm:text-sm"><i class="fa-solid fa-arrow-right"></i> দেবো (নিলাম)</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Person Name -->
-                        <div class="lg:col-span-4">
-                            <label for="person-name" class="block text-sm font-medium text-slate-700 mb-1">ব্যক্তির নাম / প্রতিষ্ঠান *</label>
-                            <input type="text" id="person-name" required placeholder="যেমন: রহিম ভাই, করিম স্টোর..." 
-                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
-                        </div>
-
-                        <!-- Amount -->
-                        <div class="lg:col-span-4">
-                            <label for="debt-amount" class="block text-sm font-medium text-slate-700 mb-1">টাকার পরিমাণ (৳) *</label>
-                            <input type="number" id="debt-amount" required min="1" step="any" placeholder="0.00" 
-                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
-                        </div>
-
-                        <!-- Phone -->
-                        <div class="lg:col-span-3">
-                            <label for="person-phone" class="block text-sm font-medium text-slate-700 mb-1">মোবাইল (ঐচ্ছিক)</label>
-                            <input type="tel" id="person-phone" placeholder="017XXXXXXXX" 
-                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
-                        </div>
-
-                        <!-- Note / Reason -->
-                        <div class="lg:col-span-4">
-                            <label for="debt-note" class="block text-sm font-medium text-slate-700 mb-1">কারণ / বিবরণ</label>
-                            <input type="text" id="debt-note" placeholder="যেমন: জরুরি প্রয়োজনে, দোকানের বাকি..." 
-                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
-                        </div>
-
-                        <!-- Date -->
-                        <div class="lg:col-span-2">
-                            <label for="debt-date" class="block text-sm font-medium text-slate-700 mb-1">তারিখ</label>
-                            <input type="date" id="debt-date" required 
-                                class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm">
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="lg:col-span-3">
-                            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-xl shadow-md hover:shadow-lg transition duration-200 flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-plus"></i> যুক্ত করুন
-                            </button>
-                        </div>
-                    </form>
-                </section>
-
-                <!-- Search & Status Filter Bar -->
-                <section class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 no-print">
-                    <div class="flex items-center gap-2 text-slate-700 font-semibold">
-                        <i class="fa-solid fa-table-columns text-indigo-600"></i>
-                        <span>ধার-দেনার আলাদা শিট</span>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <div class="relative flex-grow sm:flex-grow-0">
-                            <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs absolute left-3 top-3"></i>
-                            <input type="text" id="search-person" onkeyup="renderDebts()" placeholder="নাম দিয়ে খুঁজুন..." 
-                                class="text-sm border border-slate-300 rounded-xl pl-8 pr-3 py-1.5 bg-slate-50 outline-none focus:border-indigo-500 w-full sm:w-52">
-                        </div>
-                        <select id="filter-debt" onchange="renderDebts()" class="text-sm border border-slate-300 rounded-xl px-3 py-1.5 bg-slate-50 outline-none focus:border-indigo-500">
-                            <option value="all">সব হিসাব দেখুন</option>
-                            <option value="unsettled">শুধুমাত্র বাকি আছে</option>
-                            <option value="settled">শুধুমাত্র পরিশোধিত</option>
+                        <label class="block text-sm font-medium text-slate-600 mb-1">লেনদেনের ধরন</label>
+                        <select id="type" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="given">পাবো (ধার দিলাম)</option>
+                            <option value="taken">দেবো (ধার নিলাম)</option>
                         </select>
                     </div>
-                </section>
 
-                <!-- Two Split Sheets Grid: Pabo vs Dibo -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    
-                    <!-- Sheet 1: PABO (Receivable) -->
-                    <section class="bg-white rounded-2xl p-5 shadow-sm border border-blue-100 print-shadow-none flex flex-col">
-                        <div class="flex items-center justify-between border-b border-blue-100 pb-3 mb-4">
-                            <h3 class="text-lg font-bold text-blue-700 flex items-center gap-2">
-                                <span class="bg-blue-100 p-1.5 rounded-lg text-sm"><i class="fa-solid fa-arrow-left"></i></span>
-                                পাবো তালিকা (ধার দেওয়া)
-                            </h3>
-                            <span id="pabo-count-badge" class="bg-blue-50 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full border border-blue-200">
-                                ০ জন
-                            </span>
-                        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 mb-1">ব্যক্তির নাম *</label>
+                        <input type="text" id="name" required placeholder="যেমন: রহিম ভাই" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
 
-                        <!-- Pabo List Container -->
-                        <div id="pabo-list" class="space-y-3 overflow-y-auto max-h-[500px] pr-1 flex-grow">
-                            <!-- Dynamic Pabo items -->
-                        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 mb-1">টাকার পরিমাণ (৳) *</label>
+                        <input type="number" id="amount" required placeholder="যেমন: ৫০০০" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
 
-                        <!-- Pabo Empty State -->
-                        <div id="pabo-empty-state" class="hidden text-center py-10">
-                            <div class="bg-blue-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2 text-blue-400">
-                                <i class="fa-solid fa-hand-holding-dollar text-xl"></i>
-                            </div>
-                            <p class="text-slate-500 text-sm font-medium">পাওনা কোনো হিসাব নেই</p>
-                        </div>
-                    </section>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 mb-1">মোবাইল নম্বর (ঐচ্ছিক)</label>
+                        <input type="text" id="phone" placeholder="যেমন: 017xxxxxxxx" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
 
-                    <!-- Sheet 2: DIBO (Payable) -->
-                    <section class="bg-white rounded-2xl p-5 shadow-sm border border-amber-100 print-shadow-none flex flex-col">
-                        <div class="flex items-center justify-between border-b border-amber-100 pb-3 mb-4">
-                            <h3 class="text-lg font-bold text-amber-700 flex items-center gap-2">
-                                <span class="bg-amber-100 p-1.5 rounded-lg text-sm"><i class="fa-solid fa-arrow-right"></i></span>
-                                দেবো তালিকা (ধার নেওয়া)
-                            </h3>
-                            <span id="dibo-count-badge" class="bg-amber-50 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full border border-amber-200">
-                                ০ জন
-                            </span>
-                        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 mb-1">বিবরণ / কারণ (ঐচ্ছিক)</label>
+                        <input type="text" id="note" placeholder="যেমন: নগদ ধার বা বাকি মাল" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
 
-                        <!-- Dibo List Container -->
-                        <div id="dibo-list" class="space-y-3 overflow-y-auto max-h-[500px] pr-1 flex-grow">
-                            <!-- Dynamic Dibo items -->
-                        </div>
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl transition shadow-md shadow-indigo-100">
+                        হিসাব সংরক্ষণ করুন
+                    </button>
+                </form>
+            </div>
 
-                        <!-- Dibo Empty State -->
-                        <div id="dibo-empty-state" class="hidden text-center py-10">
-                            <div class="bg-amber-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2 text-amber-400">
-                                <i class="fa-solid fa-file-invoice-dollar text-xl"></i>
-                            </div>
-                            <p class="text-slate-500 text-sm font-medium">দেনা কোনো হিসাব নেই</p>
-                        </div>
-                    </section>
-
+            <!-- Right: Search & Filter Toolbar -->
+            <div class="lg:col-span-2 space-y-4">
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3 no-print">
+                    <div class="relative w-full sm:w-72">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </span>
+                        <input type="text" id="searchInput" onkeyup="filterDebts()" placeholder="নাম দিয়ে খুঁজুন..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
                 </div>
 
+                <!-- Split Lists: Given (Pabo) & Taken (Debo) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <!-- Pabo List (Given) -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col h-[500px]">
+                        <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                            <h3 class="font-bold text-blue-700 flex items-center gap-1.5 text-base">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                </svg>
+                                পাবো তালিকা (ধার দেওয়া)
+                            </h3>
+                            <span id="givenCount" class="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-full font-semibold">০ টি বাকি</span>
+                        </div>
+                        <div id="givenList" class="overflow-y-auto space-y-3 flex-1 pr-1">
+                            <!-- JS will inject given items here -->
+                        </div>
+                    </div>
+
+                    <!-- Debo List (Taken) -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col h-[500px]">
+                        <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                            <h3 class="font-bold text-amber-700 flex items-center gap-1.5 text-base">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                                </svg>
+                                দেবো তালিকা (ধার নেওয়া)
+                            </h3>
+                            <span id="takenCount" class="bg-amber-50 text-amber-700 text-xs px-2.5 py-1 rounded-full font-semibold">০ টি বাকি</span>
+                        </div>
+                        <div id="takenList" class="overflow-y-auto space-y-3 flex-1 pr-1">
+                            <!-- JS will inject taken items here -->
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
         </div>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-4 text-center text-sm text-slate-500 mt-8 no-print">
-        <p>© ২০২৬ ডিজিটাল টালি খাতা | আপনার সকল তথ্য আপনার ব্রাউজারে সুরক্ষিত থাকে।</p>
-    </footer>
-
-    <!-- Custom Toast Notification -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-slate-800 text-white px-5 py-3 rounded-xl shadow-xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-50">
-        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
-        <span id="toast-msg" class="text-sm font-medium">হিসাব যোগ করা হয়েছে!</span>
-    </div>
-
-    <!-- Custom Confirmation Modal for Clearing All Data -->
-    <div id="clear-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl transform scale-95 transition-transform">
-            <div class="text-center">
-                <div class="bg-rose-100 text-rose-600 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+    <!-- Partial Payment Modal -->
+    <div id="payModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-xl">
+            <h3 class="text-lg font-bold text-slate-800">টাকা জমা / আংশিক পরিশোধ</h3>
+            <p id="modalPersonName" class="text-sm text-slate-500"></p>
+            <form onsubmit="submitPartialPayment(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">জমা বা পরিশোধিত পরিমাণ (৳)</label>
+                    <input type="number" id="partialAmount" required placeholder="যেমন: ২০০০" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
-                <h4 class="text-lg font-bold text-slate-800">আপনি কি নিশ্চিত?</h4>
-                <p class="text-sm text-slate-500 mt-2">সব হিসাব মুছে ফেললে তা আর ফিরিয়ে আনা সম্ভব হবে না।</p>
-            </div>
-            <div class="grid grid-cols-2 gap-3 mt-6">
-                <button onclick="closeClearModal()" class="py-2.5 px-4 rounded-xl border border-slate-300 text-slate-700 font-medium hover:bg-slate-50 transition">
-                    বাতিল করুন
-                </button>
-                <button onclick="clearAllData()" class="py-2.5 px-4 rounded-xl bg-rose-600 text-white font-medium hover:bg-rose-700 transition">
-                    হ্যাঁ, মুছে ফেলুন
-                </button>
-            </div>
+                <div class="flex gap-2">
+                    <button type="button" onclick="closeModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-2.5 rounded-xl transition">বাতিল</button>
+                    <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl transition">জমা দিন</button>
+                </div>
+            </form>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-slate-400 no-print">
+        © ২০২৬ ডিজিটাল টালি খাতা | আপনার সকল তথ্য ব্রাউজারে সুরক্ষিত থাকে।
+    </footer>
+
     <!-- JavaScript Logic -->
     <script>
-        // Default demo debts if localStorage is empty
-        const defaultDebts = [
-            { id: 101, name: 'তানভীর আহমেদ', phone: '01711000000', amount: 5000, type: 'pabo', note: 'বন্ধুকে ধার দেওয়া হয়েছে', date: new Date().toISOString().split('T')[0], settled: false },
-            { id: 102, name: 'বিসমিল্লাহ স্টোর', phone: '01811000000', amount: 1850, type: 'dibo', note: 'দোকানের বাকি', date: new Date().toISOString().split('T')[0], settled: false }
-        ];
+        let debts = JSON.parse(localStorage.getItem('tali_debts')) || [];
+        let activeModalId = null;
 
-        // Load data from localStorage
-        let debts = JSON.parse(localStorage.getItem('hisab_debts')) || defaultDebts;
-
-        // DOM Elements
-        const debtForm = document.getElementById('debt-form');
-        const paboListEl = document.getElementById('pabo-list');
-        const diboListEl = document.getElementById('dibo-list');
-        const paboEmptyEl = document.getElementById('pabo-empty-state');
-        const diboEmptyEl = document.getElementById('dibo-empty-state');
-        const debtDateInput = document.getElementById('debt-date');
-
-        // Set today's date as default in form
-        const today = new Date();
-        const todayStr = today.toISOString().split('T')[0];
-        debtDateInput.value = todayStr;
-
-        // Format number to Bengali Taka format
-        function formatCurrency(num) {
-            return '৳ ' + Number(num).toLocaleString('bn-BD', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        function saveToLocalStorage() {
+            localStorage.setItem('tali_debts', JSON.stringify(debts));
         }
 
-        // Show Toast Notification
-        function showToast(message, isError = false) {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-msg');
-            const toastIcon = document.getElementById('toast-icon');
-
-            toastMsg.innerText = message;
-            toastIcon.className = isError ? 'fa-solid fa-circle-exclamation text-rose-400' : 'fa-solid fa-circle-check text-emerald-400';
-
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-
-        // ==================== DEBT / LOAN TRACKER LOGIC ====================
-        function updateDebtSummary() {
-            // Only count unsettled debts for active summary
-            const pabo = debts
-                .filter(d => d.type === 'pabo' && !d.settled)
-                .reduce((acc, d) => acc + Number(d.amount), 0);
-
-            const dibo = debts
-                .filter(d => d.type === 'dibo' && !d.settled)
-                .reduce((acc, d) => acc + Number(d.amount), 0);
-
-            const net = pabo - dibo;
-
-            document.getElementById('total-receivable').innerText = formatCurrency(pabo);
-            document.getElementById('total-payable').innerText = formatCurrency(dibo);
-
-            const netEl = document.getElementById('net-debt-balance');
-            const statusEl = document.getElementById('net-debt-status');
-
-            if (net > 0) {
-                netEl.innerText = formatCurrency(net);
-                netEl.className = 'text-3xl font-bold mt-1 text-emerald-400';
-                statusEl.innerText = 'আপনি নিট এই পরিমাণ টাকা পাবেন';
-            } else if (net < 0) {
-                netEl.innerText = formatCurrency(Math.abs(net));
-                netEl.className = 'text-3xl font-bold mt-1 text-amber-400';
-                statusEl.innerText = 'আপনি নিট এই পরিমাণ টাকা দেনা আছেন';
-            } else {
-                netEl.innerText = '৳ ০.০০';
-                netEl.className = 'text-3xl font-bold mt-1 text-white';
-                statusEl.innerText = 'হিসাব সমান আছে';
-            }
-        }
-
-        function createDebtCard(d) {
-            const isPabo = d.type === 'pabo';
-            const item = document.createElement('div');
-            
-            let cardStyle = isPabo ? 'bg-blue-50/40 border-blue-100' : 'bg-amber-50/40 border-amber-100';
-            if (d.settled) cardStyle = 'bg-slate-50 border-slate-200 opacity-70';
-
-            item.className = `flex flex-col justify-between p-3.5 rounded-xl border transition hover:shadow-sm gap-2.5 ${cardStyle}`;
-
-            const formattedDate = new Date(d.date).toLocaleDateString('bn-BD', {
-                day: 'numeric', month: 'short', year: 'numeric'
-            });
-
-            item.innerHTML = `
-                <div class="flex items-start justify-between gap-2">
-                    <div class="flex items-start gap-2.5">
-                        <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${
-                            d.settled ? 'bg-slate-200 text-slate-500' : (isPabo ? 'bg-blue-100 text-blue-600' : 'bg-amber-100 text-amber-600')
-                        }">
-                            <i class="fa-solid ${d.settled ? 'fa-check-double' : (isPabo ? 'fa-hand-holding-hand' : 'fa-file-invoice-dollar')} text-sm"></i>
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-1.5 flex-wrap">
-                                <h4 class="font-bold text-slate-800 text-base ${d.settled ? 'line-through text-slate-500' : ''}">${d.name}</h4>
-                                ${d.settled ? '<span class="text-[11px] px-2 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-700">পরিশোধিত</span>' : ''}
-                            </div>
-                            ${d.note ? `<p class="text-xs text-slate-600 mt-0.5">${d.note}</p>` : ''}
-                        </div>
-                    </div>
-
-                    <span class="font-bold text-base shrink-0 ${
-                        d.settled ? 'text-slate-500 line-through' : (isPabo ? 'text-blue-600' : 'text-amber-600')
-                    }">
-                        ${formatCurrency(d.amount)}
-                    </span>
-                </div>
-
-                <div class="flex items-center justify-between border-t pt-2 border-slate-200/60 text-xs">
-                    <div class="flex items-center gap-2.5 text-slate-500">
-                        <span><i class="fa-regular fa-calendar"></i> ${formattedDate}</span>
-                        ${d.phone ? `<a href="tel:${d.phone}" class="text-indigo-600 hover:underline"><i class="fa-solid fa-phone"></i> ${d.phone}</a>` : ''}
-                    </div>
-                    
-                    <div class="flex items-center gap-1 no-print">
-                        <button onclick="toggleSettleDebt(${d.id})" title="${d.settled ? 'আবার বাকি হিসেবে দেখান' : 'পরিশোধ হয়েছে মার্ক করুন'}" 
-                            class="px-2 py-1 rounded-lg font-semibold transition flex items-center gap-1 ${
-                                d.settled ? 'bg-slate-200 text-slate-700 hover:bg-slate-300' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
-                            }">
-                            <i class="fa-solid ${d.settled ? 'fa-rotate-left' : 'fa-check'}"></i>
-                            <span>${d.settled ? 'আনডু' : 'পরিশোধ'}</span>
-                        </button>
-                        <button onclick="deleteDebt(${d.id})" title="মুছে ফেলুন" class="text-slate-400 hover:text-rose-600 p-1 rounded-lg hover:bg-rose-50 transition">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-            return item;
-        }
-
-        function renderDebts() {
-            const filterVal = document.getElementById('filter-debt').value;
-            const searchQuery = document.getElementById('search-person').value.toLowerCase().trim();
-            
-            paboListEl.innerHTML = '';
-            diboListEl.innerHTML = '';
-
-            // Filter base list by search & status
-            const filtered = debts.filter(d => {
-                const matchesSearch = d.name.toLowerCase().includes(searchQuery) || (d.note && d.note.toLowerCase().includes(searchQuery));
-                if (!matchesSearch) return false;
-
-                if (filterVal === 'unsettled') return !d.settled;
-                if (filterVal === 'settled') return d.settled;
-                return true;
-            });
-
-            // Sort unsettled first, then newest
-            const sorted = [...filtered].sort((a, b) => {
-                if (a.settled !== b.settled) return a.settled ? 1 : -1;
-                return b.id - a.id;
-            });
-
-            const paboItems = sorted.filter(d => d.type === 'pabo');
-            const diboItems = sorted.filter(d => d.type === 'dibo');
-
-            // Update count badges (showing active unsettled count)
-            const activePaboCount = debts.filter(d => d.type === 'pabo' && !d.settled).length;
-            const activeDiboCount = debts.filter(d => d.type === 'dibo' && !d.settled).length;
-            document.getElementById('pabo-count-badge').innerText = `${activePaboCount.toLocaleString('bn-BD')} টি বাকি`;
-            document.getElementById('dibo-count-badge').innerText = `${activeDiboCount.toLocaleString('bn-BD')} টি বাকি`;
-
-            // Render Pabo Sheet
-            if (paboItems.length === 0) {
-                paboEmptyEl.classList.remove('hidden');
-            } else {
-                paboEmptyEl.classList.add('hidden');
-                paboItems.forEach(d => paboListEl.appendChild(createDebtCard(d)));
-            }
-
-            // Render Dibo Sheet
-            if (diboItems.length === 0) {
-                diboEmptyEl.classList.remove('hidden');
-            } else {
-                diboEmptyEl.classList.add('hidden');
-                diboItems.forEach(d => diboListEl.appendChild(createDebtCard(d)));
-            }
-
-            updateDebtSummary();
-        }
-
-        function saveDebts() {
-            localStorage.setItem('hisab_debts', JSON.stringify(debts));
-            renderDebts();
-        }
-
-        debtForm.addEventListener('submit', (e) => {
+        function addDebt(e) {
             e.preventDefault();
-            const type = document.querySelector('input[name="debtType"]:checked').value;
-            const name = document.getElementById('person-name').value.trim();
-            const amount = parseFloat(document.getElementById('debt-amount').value);
-            const phone = document.getElementById('person-phone').value.trim();
-            const note = document.getElementById('debt-note').value.trim();
-            const date = document.getElementById('debt-date').value;
+            const type = document.getElementById('type').value;
+            const name = document.getElementById('name').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+            const phone = document.getElementById('phone').value.trim();
+            const note = document.getElementById('note').value.trim();
 
-            if (!name || isNaN(amount) || amount <= 0) {
-                showToast('ব্যক্তির নাম এবং সঠিক টাকার পরিমাণ দিন!', true);
-                return;
-            }
-
-            debts.push({
+            const newEntry = {
                 id: Date.now(),
-                name,
-                phone,
-                amount,
                 type,
+                name,
+                amount,
+                phone,
                 note,
-                date,
-                settled: false
-            });
-            saveDebts();
+                date: new Date().toLocaleDateString('bn-BD', { day: 'numeric', month: 'short', year: 'numeric' })
+            };
 
-            document.getElementById('person-name').value = '';
-            document.getElementById('debt-amount').value = '';
-            document.getElementById('person-phone').value = '';
-            document.getElementById('debt-note').value = '';
-            
-            showToast('টালি খাতায় হিসাব যুক্ত হয়েছে!');
-        });
-
-        function toggleSettleDebt(id) {
-            const debt = debts.find(d => d.id === id);
-            if (debt) {
-                debt.settled = !debt.settled;
-                saveDebts();
-                showToast(debt.settled ? 'হিসাবটি পরিশোধিত হিসেবে মার্ক করা হয়েছে!' : 'হিসাবটি পুনরায় চালু করা হয়েছে।');
-            }
+            debts.push(newEntry);
+            saveToLocalStorage();
+            document.getElementById('debtForm').reset();
+            renderDebts();
         }
 
         function deleteDebt(id) {
-            debts = debts.filter(d => d.id !== id);
-            saveDebts();
-            showToast('হিসাবটি মুছে ফেলা হয়েছে।', true);
-        }
-
-        // ==================== MODAL CONTROLS ====================
-        function openClearModal() {
-            if (debts.length === 0) {
-                showToast('মুছে ফেলার মতো কোনো হিসাব নেই!', true);
-                return;
+            if (confirm('আপনি কি নিশ্চিতভাবে এই হিসাবটি মুছে ফেলতে চান?')) {
+                debts = debts.filter(item => item.id !== id);
+                saveToLocalStorage();
+                renderDebts();
             }
-            const modal = document.getElementById('clear-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
         }
 
-        function closeClearModal() {
-            const modal = document.getElementById('clear-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+        function openModal(id) {
+            activeModalId = id;
+            const item = debts.find(d => d.id === id);
+            if (item) {
+                document.getElementById('modalPersonName').innerText = `${item.name} (বর্তমান বাকি: ৳ ${item.amount.toLocaleString('en-IN')})`;
+                document.getElementById('partialAmount').value = '';
+                document.getElementById('payModal').classList.remove('hidden');
+                document.getElementById('payModal').classList.add('flex');
+            }
+        }
+
+        function closeModal() {
+            activeModalId = null;
+            document.getElementById('payModal').classList.remove('flex');
+            document.getElementById('payModal').classList.add('hidden');
+        }
+
+        function submitPartialPayment(e) {
+            e.preventDefault();
+            const payVal = parseFloat(document.getElementById('partialAmount').value);
+            if (activeModalId && !isNaN(payVal)) {
+                const item = debts.find(d => d.id === activeModalId);
+                if (item) {
+                    item.amount -= payVal;
+                    if (item.amount <= 0) {
+                        debts = debts.filter(d => d.id !== activeModalId);
+                    }
+                    saveToLocalStorage();
+                    closeModal();
+                    renderDebts();
+                }
+            }
         }
 
         function clearAllData() {
-            debts = [];
-            saveDebts();
-            closeClearModal();
-            showToast('সকল হিসাব মুছে ফেলা হয়েছে।', true);
+            if (confirm('সতর্কতা! সকল হিসাব মুছে যাবে। আপনি কি নিশ্চিত?')) {
+                debts = [];
+                saveToLocalStorage();
+                renderDebts();
+            }
         }
 
-        // Initial Render on Load
-        window.onload = () => {
-            renderDebts();
-        };
-    </script>
-</body>
-</html>
+        function renderDebts(filterText = '') {
+            const givenList = document.getElementById('givenList');
+            const takenList = document.getElementById('takenList');
+            
+            givenList.innerHTML = '';
+            takenList.innerHTML = '';
+
+            let totalGiven = 0;
+            let totalTaken = 0;
+            let givenCount = 0;
+            let takenCount = 0;
+
+            const filteredDebts = debts.filter(item => item.name.toLowerCase().includes(filterText.toLowerCase()) || (item.note && item.note.toLowerCase().includes(filterText.toLowerCase())));
+
+            filteredDebts.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "p-3.5 rounded-xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-sm transition flex flex-col gap-2";
+                
+                let phoneHtml = item.phone ? `<a href="tel:${item.phone}" class="text-xs text-indigo-600 hover:underline flex items-center gap-1">📞 ${item.phone}</a>` : '';
+                let noteHtml = item.note ? `<p class="text-xs text-slate-500">${item.note}</p>` : '';
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm">${item.name}</h4>
+                            ${phoneHtml}${noteHtml}
+                            <span class="text-[10px] text-slate-400 mt-1 block">📅 ${item.date}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-bold text-base ${item.type === 'given' ? 'text-blue-600' : 'text-amber-600'}">৳ ${item.amount.toLocaleString('en-IN')}</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-end items-center gap-2 pt-2 border-t border-slate-200/60 no-print">
+                        <button onclick="openModal(${item.id})" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs px-2.5 py-1 rounded-lg font-medium transition flex items-center gap-1">
+                            💵 জমা / শোধ
+                        </button>
+                        <button onclick="deleteDebt(${item.id})" class="text-slate-400 hover:text-rose-600 p-1 rounded transition" title="মুছে ফেলুন">
+                            🗑️
+                        </button>
+                    </div>
+                `;
+
+                if (item.type === 'given') {
+                    givenList.appendChild(card);
+                    totalGiven += item.amount;
+                    givenCount++;
+                } else {
+                    takenList.appendChild(card);
+                    totalTaken += item.amount;
+                    takenCount++;
+                }
+            });
+
+            if (givenCount === 0) {
+                givenList.innerHTML = `<div class="text-center py-10 text-slate-400 text-sm">পาวনা কোনো হিসাব নেই</div>`;
+            }
+            if (takenCount === 0) {
+                takenList.innerHTML = `<div class="text-center py-10 text-slate-400 text-sm">দেনার কোনো হিসাব নেই</div>`;
+            }
+
+            document.getElementById('totalGiven').innerText = `৳ ${totalGiven.toLocaleString('en-IN')}`; document.getElementById('totalTaken').innerText = `৳ ${totalTaken.toLocaleString('en-IN')}`;
+            
+            const net = totalGiven - totalTaken;
+            const netElement = document.getElementById('netBalance');
+            netElement.innerText = `৳ ${Math.abs(net).toLocaleString('en-IN')}${net >= 0 ? '(পাবেন)' : '(দেনাদার)'}`;
+            netElement.className = `text-2xl font-bold mt-1 ${net >= 0 ? 'text-emerald-600' : 'text-rose-600'}`;  document.getElementById('givenCount').innerText = `${
