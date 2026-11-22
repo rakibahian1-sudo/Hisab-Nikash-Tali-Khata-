@@ -143,6 +143,7 @@ body[data-mode=khata] .modes [data-m=khata],body[data-mode=my] .modes [data-m=my
 .pr .l1{flex-wrap:wrap}.pr .l1 input:not(.pn):not([type=radio]){min-width:120px;color:var(--text)}
 .daily .ds{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:6px 0 4px;font-size:13px}.daily .ds span{background:rgba(255,255,255,.1);padding:3px 10px;border-radius:20px}
 .blk a{color:var(--pabo);font-weight:600;text-decoration:none}
+.crow.hh{cursor:default;opacity:.78;border-left:5px solid var(--line)}
 </style>
 </head>
 <body data-tab="pabo" data-mode="my">
@@ -175,17 +176,18 @@ body[data-mode=khata] .modes [data-m=khata],body[data-mode=my] .modes [data-m=my
 <div id="v-my">
   <section class="hero"><div class="hero-in">
     <div class="mnav"><button class="a" id="my-prev" aria-label="আগের মাস">‹</button><div id="my-cur"><b id="y-lbl"></b><small id="y-sub"></small></div><button class="a" id="my-next" aria-label="পরের মাস">›</button></div>
-    <div class="s3"><div><span>মোট আয়</span><b id="y-inc">৳ ০</b></div><div><span>ফিক্সড + দেনা</span><b class="r" id="y-out">৳ ০</b></div><div><span>বণ্টনযোগ্য</span><b class="g" id="y-left">৳ ০</b></div></div>
+    <div class="s3"><div><span>এখন হাতে আছে</span><b id="y-inc">৳ ০</b></div><div><span>ফিক্সড + দেনা</span><b class="r" id="y-out">৳ ০</b></div><div><span>বণ্টনযোগ্য</span><b class="g" id="y-left">৳ ০</b></div></div>
     <div class="bar"><i id="y-bar" style="width:0"></i></div>
     <div class="net"><span id="y-l"></span><b id="y-p"></b></div>
   </div></section>
   <div class="daily" id="y-daily"></div>
-  <div class="card2"><div class="incg"><label class="f"><span>এ মাসের বেতন ৳</span><input id="y-sal" type="number" inputmode="decimal" min="0" step="any"></label><label class="f"><span>অন্য আয় / DPS পেলে ৳</span><input id="y-oth" type="number" inputmode="decimal" min="0" step="any"></label></div></div>
-  <div class="blk"><h2>ফিক্সড খরচ <small id="y-fs"></small></h2><p>বাসা ভাড়া, খাওয়া, DPS – টাকা যেকোনো সময় বদলান</p>
+  <div class="card2"><div class="incg"><label class="f"><span>মাসের বেতন ৳ (% হিসাবের জন্য)</span><input id="y-sal" type="number" inputmode="decimal" min="0" step="any"></label><label class="f"><span>এখন হাতে আছে ৳</span><input id="y-cash" type="number" inputmode="decimal" min="0" step="any"></label></div></div>
+  <div class="blk"><h2>ফিক্সড খরচ <small id="y-fs"></small></h2><p>টাকা লিখে টিক দিলেই সেটা ফিক্সড ধরা হবে – টিক না দিলে ০</p>
     <div class="card2" style="margin-top:0"><div id="y-fx"></div><button class="chip" id="y-fadd" style="margin-top:10px">＋ ফিক্সড খরচ যোগ করুন</button></div></div>
   <div class="blk"><h2>দেবো – শোধ করতে হবে <small id="y-ds"></small></h2><p>টিক থাকলে এ মাসে শোধ করবেন ধরা হয় · <a href="#" data-go="dibo">খাতায় যান ›</a></p><div class="sheetlist" id="y-dl"></div></div>
   <div class="blk"><h2>পাবো – ফেরত আসতে পারে <small id="y-ps"></small></h2><p>টিক দিলে এ মাসে পাবেন ধরে বণ্টনযোগ্য টাকা বাড়ে · <a href="#" data-go="pabo">খাতায় যান ›</a></p><div class="sheetlist" id="y-pl"></div></div>
-  <div class="blk"><h2>কোন খাতে কত খরচ করবেন <small id="y-pt"></small></h2><p>ফিক্সড ও দেনা বাদে বাকি টাকা শতকরা ভাগ করা হয়</p>
+  <div class="blk"><h2>এই মাসে পরিশোধিত <small id="y-hs"></small></h2><p>বেতন থেকে আগেই গেছে – তাই নিচের হিসাবে ধরা হয়নি</p><div class="sheetlist" id="y-hl"></div></div>
+  <div class="blk"><h2>কোন খাতে কত খরচ করবেন <small id="y-pt"></small></h2><p>হাতের টাকা থেকে ফিক্সড ও দেনা বাদ দিয়ে বাকিটা শতকরা ভাগ হয়</p>
     <div class="card2" style="margin-top:0"><div id="y-plan"></div><button class="chip" id="y-add" style="margin-top:10px">＋ খাত যোগ করুন</button><div class="warn" id="y-w"></div></div></div>
 </div>
 </div>
@@ -373,40 +375,44 @@ const shift=n=>{const [y,m]=curM.split('-').map(Number),d=new Date(y,m-1+n,1);cu
 function setMode(m){document.body.dataset.mode=m;try{localStorage.setItem('tali_mode',m)}catch(e){}scrollTo({top:0})}
 document.querySelector('.modes').onclick=e=>{const b=e.target.closest('[data-m]');if(b)setMode(b.dataset.m)};
 try{document.body.dataset.mode=localStorage.getItem('tali_mode')==='khata'?'khata':'my'}catch(e){}
-const DEF=[{n:'জরুরি ফান্ড (Urgent)',p:15},{n:'বিনিয়োগ (Invest)',p:39},{n:'ভ্রমণ লিমিট (Travel)',p:23},{n:'হাতখরচ / ফান (Extra)',p:23,d:1}];
-const DFX=[{id:'rent',n:'বাসা ভাড়া',a:4000},{id:'food',n:'খাওয়া খরচ',a:3000},{id:'dps',n:'DPS কিস্তি',a:0}];
+const DEF=[{n:'দৈনিক ব্যবহার',p:70,d:1},{n:'জরুরি ফান্ড (Urgent)',p:10},{n:'ভ্রমণ লিমিট (Travel)',p:10},{n:'হাতখরচ / ফান (Extra)',p:10},{n:'বিনিয়োগ (Invest)',p:0}];
+const DFX=[{id:'rent',n:'বাসা ভাড়া',a:0},{id:'food',n:'খাওয়া খরচ',a:0},{id:'dps',n:'DPS কিস্তি',a:0}];
 const fresh=()=>({plan:DEF.map(x=>({...x})),fixed:DFX.map(x=>({...x})),m:{}});
-function fixMy(){if(!my.fixed){my.fixed=DFX.map(x=>({...x}));my.plan=DEF.map(x=>({...x}))}if(!my.plan||!my.plan.length)my.plan=DEF.map(x=>({...x}));if(!my.m)my.m={}}
+function fixMy(){if(!my.m)my.m={};const f=my.fixed;
+ if(!f||(f.length===3&&f[1].a===3000&&f[2].a===0&&(f[0].a===4000||f[0].a===3500)))my.fixed=DFX.map(x=>({...x}));
+ const o=[15,39,23,23];if(!my.plan||!my.plan.length||(my.plan.length===4&&my.plan.every((x,i)=>x.p===o[i])))my.plan=DEF.map(x=>({...x}))}
 let my=lj('tali_khata_my',null);if(!my)my=fresh();fixMy();
-function gy(){const m=my.m[curM];if(m){m.sd=m.sd||[];m.gp=m.gp||[];m.sf=m.sf||[];return m}const ks=Object.keys(my.m).filter(k=>k<curM).sort(),l=ks.length?my.m[ks[ks.length-1]]:null;return{sal:l?l.sal:17500,oth:0,sd:[],gp:[],sf:[]}}
+function gy(){const m=my.m[curM],cm=curM===localDate().slice(0,7);
+ if(m){m.sd=m.sd||[];m.gp=m.gp||[];m.sf=m.sf||[];m.sel=m.sel||[];if(m.cash===undefined)m.cash=cm?9000:(m.sal||0);return m}
+ const ks=Object.keys(my.m).filter(k=>k<curM).sort(),l=ks.length?my.m[ks[ks.length-1]]:null,sl=l?l.sal:17500;
+ return{sal:sl,cash:l?sl:9000,sd:[],gp:[],sf:[],sel:l&&l.sel?[...l.sel]:[]}}
 const ey=()=>my.m[curM]||(my.m[curM]=JSON.parse(JSON.stringify(gy())));
 function renderMy(){
- const y=gy(),[yy,mo]=curM.split('-'),inc=(y.sal||0)+(y.oth||0);
+ const y=gy(),[yy,mo]=curM.split('-'),cash=y.cash||0,bs=y.sal>0?y.sal:cash;
  const D=debts.filter(d=>d.type==='dibo'),P=debts.filter(d=>d.type==='pabo');
  const dp=D.filter(d=>!y.sd.includes(d.id)),pp=P.filter(d=>y.gp.includes(d.id));
- const F=my.fixed.filter(f=>!y.sf.includes(f.id)),tf=F.reduce((t,f)=>t+(+f.a||0),0),td=sm(dp),tp=sm(pp);
- const out=tf+td,free=rd(inc+tp-out),base=Math.max(0,free);
- const pc=a=>inc>0?bn(Math.round(a/inc*100))+'%':'–%';
+ const F=my.fixed.filter(f=>y.sel.includes(f.id)),tf=F.reduce((t,f)=>t+(+f.a||0),0),td=sm(dp),tp=sm(pp);
+ const out=tf+td,free=rd(cash+tp-out),base=Math.max(0,free);
+ const pc=a=>bs>0?bn(Math.round(a/bs*100))+'%':'–%';
  const dim=new Date(yy,mo,0).getDate(),now=localDate(),cur=curM===now.slice(0,7),dl=cur?dim-(+now.slice(8))+1:dim;
  $('y-lbl').textContent=`${MONF[mo-1]} ${bn(yy)}`;$('y-sub').textContent=cur?`আজ সহ ${bn(dl)} দিন বাকি`:`${bn(dim)} দিনের মাস`;
- [['y-sal','sal'],['y-oth','oth']].forEach(([i,k])=>{if(document.activeElement!==$(i))$(i).value=y[k]||''});
- $('y-inc').textContent=money(inc);$('y-out').textContent=money(out);$('y-left').textContent=(free<0?'−':'')+money(Math.abs(free));$('y-left').className=free<0?'r':'g';
- const lp=inc>0?Math.round(free/inc*100):0;
- $('y-bar').style.width=(inc>0?Math.min(100,Math.max(0,free/inc*100)):0)+'%';
- $('y-l').textContent=!inc?'আগে এ মাসের বেতন লিখুন':free<0?'ঘাটতি! আয়ের চেয়ে খরচ ও দেনা বেশি':`ফিক্সড ও দেনা বাদে আয়ের ${bn(lp)}% বণ্টনযোগ্য`;$('y-p').textContent=inc?bn(lp)+'%':'';
- /* দৈনিক */
- const fd=my.plan.findIndex(x=>x.d),fi=fd<0?my.plan.length-1:fd,food=F.find(f=>f.id==='food');
- const fPer=food?rd((+food.a||0)/dim):0,hPer=rd(base*(my.plan[fi].p||0)/100/dl);
- $('y-daily').innerHTML=inc?`<small>প্রতিদিন ব্যবহার করতে পারবেন${free<0?' – ঘাটতি আছে!':''}</small><b>${money(rd(fPer+hPer))}</b><div class="ds"><span>🍚 খাওয়া ${money(fPer)}</span><span>👜 ${esc(my.plan[fi].n.split(' (')[0])} ${money(hPer)}</span></div><small>${bn(dl)} দিনের হিসাবে</small>`:'<small>আগে এ মাসের বেতন লিখুন – তারপর দৈনিক খরচের সীমা দেখাবে</small>';
- /* ফিক্সড */
- $('y-fx').innerHTML=my.fixed.map((f,i)=>`<div class="fx"><input type="checkbox" data-fk="${f.id}" ${y.sf.includes(f.id)?'':'checked'} aria-label="এ মাসে ধরুন"><input class="fn" data-fi="${i}" data-ff="n" value="${esc(f.n)}"><input class="fa" data-fi="${i}" data-ff="a" type="number" inputmode="decimal" min="0" step="any" value="${f.a}"><button class="x" data-frm="${i}" aria-label="মুছুন">✕</button><small>আয়ের ${pc(+f.a||0)}</small></div>`).join('')||'<div class="empty">কোনো ফিক্সড খরচ নেই</div>';
+ [['y-sal','sal'],['y-cash','cash']].forEach(([i,k])=>{if(document.activeElement!==$(i))$(i).value=y[k]||''});
+ $('y-inc').textContent=money(cash);$('y-out').textContent=money(out);$('y-left').textContent=(free<0?'−':'')+money(Math.abs(free));$('y-left').className=free<0?'r':'g';
+ const lp=cash>0?Math.round(free/cash*100):0;
+ $('y-bar').style.width=(cash>0?Math.min(100,Math.max(0,free/cash*100)):0)+'%';
+ $('y-l').textContent=!cash?'আগে এখন হাতে কত আছে লিখুন':free<0?'ঘাটতি! হাতের টাকার চেয়ে খরচ ও দেনা বেশি':`ফিক্সড ও দেনা বাদে হাতের ${bn(lp)}% বাকি থাকবে`;$('y-p').textContent=cash?bn(lp)+'%':'';
+ const fd=my.plan.findIndex(x=>x.d),fi=fd<0?0:fd,pl=my.plan[fi],dAmt=rd(base*(pl.p||0)/100),hPer=rd(dAmt/dl);
+ $('y-daily').innerHTML=cash?`<small>প্রতিদিন ব্যবহার করতে পারবেন${free<0?' – ঘাটতি আছে!':''}</small><b>${money(hPer)}</b><div class="ds"><span>💵 “${esc(pl.n.split(' (')[0])}” ভাগে ${money(dAmt)}</span><span>📅 ${bn(dl)} দিন</span></div><small>বাকি ${money(base)} এর ${bn(pl.p||0)}% ভাগ ÷ ${bn(dl)} দিন</small>`:'<small>আগে “এখন হাতে আছে” লিখুন – তারপর দৈনিক খরচের সীমা দেখাবে</small>';
+ $('y-fx').innerHTML=my.fixed.map((f,i)=>`<div class="fx"><input type="checkbox" data-fk="${f.id}" ${y.sel.includes(f.id)?'checked':''} aria-label="ফিক্সড ধরুন"><input class="fn" data-fi="${i}" data-ff="n" value="${esc(f.n)}"><input class="fa" data-fi="${i}" data-ff="a" type="number" inputmode="decimal" min="0" step="any" value="${f.a}"><button class="x" data-frm="${i}" aria-label="মুছুন">✕</button><small>বেতনের ${pc(+f.a||0)}</small></div>`).join('')||'<div class="empty">কোনো ফিক্সড খরচ নেই</div>';
  $('y-fs').textContent=`${money(tf)} (${pc(tf)})`;
- /* দেনা-পাওনা */
- const li=(d,c,k,cl)=>`<label class="crow ${cl}"><input type="checkbox" data-k="${k}" data-id="${d.id}" ${c?'checked':''}><span class="who"><b>${esc(d.name)}</b><span class="meta">${d.note?esc(d.note):fdate(d.date)}</span></span><span class="rt"><b class="amt2">${money(d.amount)}</b><small>আয়ের ${pc(d.amount)}</small></span></label>`;
- $('y-dl').innerHTML=D.length?D.map(d=>li(d,!y.sd.includes(d.id),'sd','dd')).join(''):'<div class="empty"><b>কোনো দেনা নেই 🎉</b>খাতায় দেবো যোগ করলে এখানে আসবে</div>';
+ const li=(d,c,k,cl)=>`<label class="crow ${cl}"><input type="checkbox" data-k="${k}" data-id="${d.id}" ${c?'checked':''}><span class="who"><b>${esc(d.name)}</b><span class="meta">${d.note?esc(d.note):fdate(d.date)}</span></span><span class="rt"><b class="amt2">${money(d.amount)}</b><small>বেতনের ${pc(d.amount)}</small></span></label>`;
+ $('y-dl').innerHTML=D.length?D.map(d=>li(d,!y.sd.includes(d.id),'sd','dd')).join(''):'<div class="empty"><b>কোনো দেনা বাকি নেই 🎉</b>খাতায় দেবো যোগ করলে এখানে আসবে</div>';
  $('y-pl').innerHTML=P.length?P.map(d=>li(d,y.gp.includes(d.id),'gp','pp2')).join(''):'<div class="empty"><b>কারও কাছে পাওনা নেই</b>খাতায় পাবো যোগ করলে এখানে আসবে</div>';
  $('y-ds').textContent=D.length?`ধরা: ${money(td)} (${pc(td)})`:'';$('y-ps').textContent=P.length?`ধরা: ${money(tp)} (${pc(tp)})`:'';
- /* বণ্টন */
+ const H=[...hist.filter(h=>(h.settledDate||'').startsWith(curM)).map(h=>({n:h.name,a:h.amount,d:h.settledDate,t:h.type})),...debts.flatMap(d=>(d.log||[]).filter(l=>l.k==='-'&&(l.d||'').startsWith(curM)).map(l=>({n:d.name,a:l.a,d:l.d,t:d.type})))].sort((a,b)=>b.d.localeCompare(a.d));
+ const th=H.filter(h=>h.t==='dibo').reduce((t,h)=>t+h.a,0);
+ $('y-hl').innerHTML=H.length?H.map(h=>`<div class="crow hh"><span class="who"><b>✓ ${esc(h.n)}</b><span class="meta">${fdate(h.d)} · ${h.t==='dibo'?'দিয়েছেন':'পেয়েছেন'}</span></span><span class="rt"><b class="amt2">${money(h.a)}</b><small>বেতনের ${pc(h.a)}</small></span></div>`).join(''):'<div class="empty">এ মাসে এখনো কিছু পরিশোধ হয়নি</div>';
+ $('y-hs').textContent=th?`দিয়েছেন ${money(th)}`:'';
  const tot=my.plan.reduce((t,x)=>t+(+x.p||0),0);
  $('y-plan').innerHTML=my.plan.map((x,i)=>`<div class="pr"><div class="l1"><input data-i="${i}" data-f="n" value="${esc(x.n)}" aria-label="খাতের নাম"><input class="pn" data-i="${i}" data-f="p" type="number" inputmode="decimal" min="0" max="100" value="${x.p}" aria-label="শতাংশ"><span>%</span><label class="rd"><input type="radio" name="dr" data-dr="${i}" ${i===fi?'checked':''}>দৈনিক</label>${my.plan.length>1?`<button class="x" data-rm="${i}" aria-label="মুছুন">✕</button>`:''}</div><div class="l2"><div class="pg"><i style="width:${Math.min(100,x.p)}%"></i></div><b>${money(rd(base*x.p/100))}</b></div></div>`).join('');
  $('y-pt').textContent=`মোট ${bn(tot)}%`;
@@ -414,11 +420,11 @@ function renderMy(){
 }
 $('my-prev').onclick=()=>shift(-1);$('my-next').onclick=()=>shift(1);$('my-cur').onclick=()=>{curM=localDate().slice(0,7);renderMy()};
 $('y-sal').onchange=e=>{ey().sal=Math.max(0,parseFloat(e.target.value)||0);save()};
-$('y-oth').onchange=e=>{ey().oth=Math.max(0,parseFloat(e.target.value)||0);save()};
+$('y-cash').onchange=e=>{ey().cash=Math.max(0,parseFloat(e.target.value)||0);save()};
 const tg=(a,id,on)=>{const i=a.indexOf(id);if(on&&i<0)a.push(id);if(!on&&i>-1)a.splice(i,1)};
 $('v-my').addEventListener('change',e=>{const t=e.target,d=t.dataset;
  if(d.k){const m=ey();tg(m[d.k],+d.id,d.k==='sd'?!t.checked:t.checked);save()}
- else if(d.fk){tg(ey().sf,d.fk,!t.checked);save()}
+ else if(d.fk){tg(ey().sel,d.fk,t.checked);save()}
  else if(d.ff){const f=my.fixed[+d.fi];f[d.ff]=d.ff==='a'?Math.max(0,parseFloat(t.value)||0):(t.value.trim()||f.n);save()}
  else if(d.dr!==undefined){my.plan.forEach((x,j)=>x.d=j===+d.dr?1:0);save()}
  else if(d.f){const x=my.plan[+d.i];x[d.f]=d.f==='p'?Math.max(0,parseFloat(t.value)||0):(t.value.trim()||x.n);save()}});
