@@ -22,14 +22,14 @@ body{margin:0;font-family:'Hind Siliguri',system-ui,sans-serif;color:var(--text)
 .serif{font-family:'Tiro Bangla','Hind Siliguri',serif}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
-.top{background:var(--ink);color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 62px;display:flex;justify-content:space-between;align-items:center}
+.top{background:var(--ink);color:#fff;padding:calc(8px + env(safe-area-inset-top,0px)) 12px 10px;display:flex;justify-content:space-between;align-items:center}
 .brand{display:flex;gap:12px;align-items:center}
 .logo{width:42px;height:42px;border-radius:12px;background:var(--gold);color:var(--ink);display:grid;place-items:center;font:400 22px 'Tiro Bangla',serif;transform:rotate(-6deg)}
 .brand h1{margin:0;font:400 22px/1.1 'Tiro Bangla',serif}
 .brand p{margin:2px 0 0;font-size:12px;opacity:.7}
 .icon-btn{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.1);color:#fff;font-size:20px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 14px}
-.hero{margin-top:-46px;background:var(--ink);color:#fff;border-radius:22px;padding:6px;box-shadow:0 14px 30px -12px rgba(18,48,43,.55)}
+.hero{margin-top:14px;background:var(--ink);color:#fff;border-radius:22px;padding:6px;box-shadow:0 14px 30px -12px rgba(18,48,43,.55)}
 .hero-in{border:1px dashed rgba(227,178,60,.55);border-radius:17px;padding:16px 14px 14px}
 .split{display:grid;grid-template-columns:1fr 1px 1fr;gap:12px}
 .split hr{border:0;background:rgba(227,178,60,.4);margin:0}
@@ -103,8 +103,8 @@ body[data-tab=hist] .nav [data-t=hist]{color:var(--text);background:var(--soft)}
 @media print{:root{--paper:#fff;--card:#fff;--text:#16241f;--mute:#6b7d75;--line:#dde7e0;--soft:#eef3ef;--softp:#e1f3ec;--softd:#fdecef;--pabo:#0e7a63;--dibo:#c0264b;--rule:transparent}.nav,.fab,.top button,.search,.acts,.toast{display:none!important}.sec{display:block!important}body{background:#fff}.top{padding-bottom:50px}main{display:block}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-.top{flex-wrap:wrap}.hbtns{display:flex;gap:8px}
-.modes{display:flex;gap:4px;background:rgba(255,255,255,.1);padding:4px;border-radius:14px;width:100%;margin-top:14px}
+.top{flex-wrap:nowrap;gap:8px;position:sticky;top:0;z-index:40;box-shadow:0 8px 18px -10px rgba(0,0,0,.55)}.hbtns{display:flex;gap:8px}
+.modes{display:flex;gap:4px;background:rgba(255,255,255,.1);padding:4px;border-radius:14px;flex:1;min-width:0;margin-top:0}
 .modes button{flex:1;padding:9px 6px;border-radius:11px;color:#cfe3da;font-weight:600;font-size:14px}
 body[data-mode=khata] .modes [data-m=khata],body[data-mode=my] .modes [data-m=my]{background:var(--gold);color:#12302b}
 .mnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
@@ -168,14 +168,17 @@ body[data-mt=a] .mg[data-g=a],body[data-mt=d] .mg[data-g=d],body[data-mt=f] .mg[
 .nav button{position:relative}.nav .ic{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-bottom:1px}
 .nav button .bd{position:absolute;top:1px;left:calc(50% + 6px);min-width:17px;height:17px;border-radius:9px;background:var(--soft);color:var(--text);font:600 10.5px/17px 'Hind Siliguri',sans-serif;text-align:center;padding:0 4px;font-style:normal}
 body[data-tab=pabo] #nav-k [data-t=pabo] .bd{background:var(--pabo);color:#fff}body[data-tab=dibo] #nav-k [data-t=dibo] .bd{background:var(--dibo);color:#fff}
+.logo{width:36px;height:36px;border-radius:11px;font-size:19px;flex:none}.brand>div:not(.logo){display:none}.icon-btn{width:38px;height:38px;border-radius:11px;font-size:18px;flex:none}
+.modes button{padding:9px 4px;font-size:13.5px;white-space:nowrap}
+@media(min-width:640px){.brand>div:not(.logo){display:block}.logo{width:42px;height:42px}.top{gap:14px}.modes{max-width:360px}}
 </style>
 </head>
 <body data-tab="pabo" data-mode="my" data-mt="a">
 
 <header class="top">
   <div class="brand"><div class="logo">খা</div><div><h1>ডিজিটাল খাতা</h1><p>পাবো, দেবো – সব হিসাব হাতের মুঠোয়</p></div></div>
+  <div class="modes"><button data-m="my">💰 মাসের হিসাব</button><button data-m="khata">📒 খাতা</button></div>
   <div class="hbtns"><button class="icon-btn" id="th-btn" aria-label="থিম">◐</button><button class="icon-btn" id="menu-btn" aria-label="মেনু">⋯</button></div>
-  <div class="modes"><button data-m="my">💰 মাসের হিসাব</button><button data-m="khata">📒 খাতা (পাবো/দেবো)</button></div>
 </header>
 
 <div class="wrap">
