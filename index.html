@@ -3,17 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#12302b">
+<meta name="theme-color" content="#12302b" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1512" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>ডিজিটাল খাতা – পাবো দেবোর হিসাব</title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Tiro+Bangla&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#12302b;--ink2:#1d4a42;--paper:#f2f6f1;--card:#fff;--line:#dde7e0;--pabo:#0e7a63;--dibo:#c0264b;--gold:#e3b23c;--text:#16241f;--mute:#6b7d75;--sb:env(safe-area-inset-bottom,0px)}
+:root{color-scheme:light dark;--card:#fff;--soft:#eef3ef;--softp:#e1f3ec;--softd:#fdecef;--inp:#fbfdfb;--bd:#cfdcd3;--navbg:rgba(255,255,255,.94);--rule:rgba(14,122,99,.07);--chipt:#12302b;--btn:#12302b;--ink:#12302b;--ink2:#1d4a42;--paper:#f2f6f1;--card:#fff;--line:#dde7e0;--pabo:#0e7a63;--dibo:#c0264b;--gold:#e3b23c;--text:#16241f;--mute:#6b7d75;--sb:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--paper:#0b1512;--card:#13211d;--line:#223a33;--text:#e6f0ea;--mute:#93aa9f;--pabo:#1fa07d;--dibo:#e0476a;--soft:#1b2d27;--softp:#16352c;--softd:#3a1b24;--inp:#0f1b17;--bd:#2c4a40;--navbg:rgba(14,26,22,.94);--rule:rgba(52,199,157,.06);--chipt:#cfe3da;--btn:#1d4a42}.top{background:#0f2420}.side.d b{color:#ff9bb0}.row .amt{filter:brightness(1.25)}.f input,.search input{color:var(--text)}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:'Hind Siliguri',system-ui,sans-serif;color:var(--text);background:var(--paper) repeating-linear-gradient(to bottom,transparent 0 35px,rgba(14,122,99,.07) 35px 36px);padding-bottom:calc(96px + var(--sb));min-height:100vh}
+body{margin:0;font-family:'Hind Siliguri',system-ui,sans-serif;color:var(--text);background:var(--paper) repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);padding-bottom:calc(96px + var(--sb));min-height:100vh}
 .serif{font-family:'Tiro Bangla','Hind Siliguri',serif}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
@@ -37,7 +40,7 @@ button{cursor:pointer;border:0;background:none}
 .net{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13px}
 .net b{font:400 18px 'Tiro Bangla',serif;color:var(--gold)}
 .search{margin:16px 0 4px;position:relative}
-.search input{width:100%;padding:12px 14px 12px 40px;border-radius:14px;border:1px solid var(--line);background:#fff;outline:none}
+.search input{width:100%;padding:12px 14px 12px 40px;border-radius:14px;border:1px solid var(--line);background:var(--card);outline:none}
 .search input:focus{border-color:var(--ink2);box-shadow:0 0 0 3px rgba(29,74,66,.15)}
 .search:before{content:"⌕";position:absolute;left:14px;top:50%;transform:translateY(-52%);font-size:20px;color:var(--mute)}
 main{display:grid;gap:18px;margin-top:14px}
@@ -51,51 +54,51 @@ main{display:grid;gap:18px;margin-top:14px}
 .who b{font-weight:600;font-size:16px}
 .meta{display:block;font-size:12px;color:var(--mute);margin-top:1px}
 .amt{font:400 20px 'Tiro Bangla',serif;color:var(--c);white-space:nowrap}
-.prog{height:5px;background:#e8efea;border-radius:9px;margin-top:10px;overflow:hidden}
+.prog{height:5px;background:var(--soft);border-radius:9px;margin-top:10px;overflow:hidden}
 .prog i{display:block;height:100%;background:var(--c);border-radius:9px}
 .pmeta{font-size:11.5px;color:var(--mute);margin-top:4px}
 .acts{display:none;flex-wrap:wrap;gap:8px;margin-top:12px}
 .row.open .acts{display:flex}
-.chip{padding:8px 13px;border-radius:11px;font-size:13.5px;font-weight:600;background:#eef3ef;color:var(--ink);text-decoration:none;display:inline-flex;gap:5px;align-items:center}
-.chip.go{background:var(--pabo);color:#fff}.chip.rm{color:var(--dibo);background:#fdecef}
+.chip{padding:8px 13px;border-radius:11px;font-size:13.5px;font-weight:600;background:var(--soft);color:var(--chipt);text-decoration:none;display:inline-flex;gap:5px;align-items:center}
+.chip.go{background:var(--pabo);color:#fff}.chip.rm{color:var(--dibo);background:var(--softd)}.log{display:none;font-size:12.5px;color:var(--mute);margin-top:10px;border-top:1px dashed var(--line);padding-top:6px}.row.open .log{display:block}.log div{display:flex;justify-content:space-between;padding:2px 0}.log .pl{color:var(--dibo)}.log .mi2{color:var(--pabo)}.row.dibo .log .pl{color:var(--dibo)}
 .empty{padding:34px 20px;text-align:center;color:var(--mute);font-size:14px}
 .empty b{display:block;font:400 18px 'Tiro Bangla',serif;color:var(--text);margin-bottom:4px}
-.hrow{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);border-left:5px solid #c5d3ca;font-size:14px}
+.hrow{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);border-left:5px solid var(--line);font-size:14px}
 .hrow:last-child{border-bottom:0}
-.tag{font-size:11px;font-weight:600;padding:1px 8px;border-radius:20px;margin-left:6px;background:#e1f3ec;color:var(--pabo)}
-.tag.dibo{background:#fdecef;color:var(--dibo)}
-.nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);padding:6px 10px calc(6px + var(--sb));z-index:20}
+.tag{font-size:11px;font-weight:600;padding:1px 8px;border-radius:20px;margin-left:6px;background:var(--softp);color:var(--pabo)}
+.tag.dibo{background:var(--softd);color:var(--dibo)}
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--navbg);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);padding:6px 10px calc(6px + var(--sb));z-index:20}
 .nav button{padding:8px 4px;border-radius:12px;font-size:13px;font-weight:600;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:1px}
 .nav button em{font:400 17px 'Tiro Bangla',serif;font-style:normal}
-body[data-tab=pabo] .nav [data-t=pabo]{color:var(--pabo);background:#e4f4ee}
-body[data-tab=dibo] .nav [data-t=dibo]{color:var(--dibo);background:#fdecef}
-body[data-tab=hist] .nav [data-t=hist]{color:var(--ink);background:#e8eeea}
+body[data-tab=pabo] .nav [data-t=pabo]{color:var(--pabo);background:var(--softp)}
+body[data-tab=dibo] .nav [data-t=dibo]{color:var(--dibo);background:var(--softd)}
+body[data-tab=hist] .nav [data-t=hist]{color:var(--text);background:var(--soft)}
 .fab{position:fixed;right:18px;bottom:calc(84px + var(--sb));width:58px;height:58px;border-radius:19px;background:var(--gold);color:var(--ink);font-size:32px;line-height:1;box-shadow:0 10px 22px -6px rgba(18,48,43,.6);z-index:25;transition:transform .15s}
 .fab:active{transform:scale(.92)}
 @media(max-width:899px){.sec{display:none}body[data-tab=pabo] #s-pabo,body[data-tab=dibo] #s-dibo,body[data-tab=hist] #s-hist{display:block}}
 @media(min-width:900px){main{grid-template-columns:1fr 1fr;align-items:start}#s-hist{grid-column:1/-1}.nav{display:none}.fab{bottom:28px}body{padding-bottom:100px}.top{padding-left:max(18px,calc(50vw - 540px));padding-right:max(18px,calc(50vw - 540px))}}
 .bg{position:fixed;inset:0;background:rgba(10,26,23,.55);display:none;align-items:flex-end;justify-content:center;z-index:50}
 .bg.on{display:flex;animation:fade .18s}
-.sheet{background:#fff;width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:18px 18px calc(18px + var(--sb));max-height:92vh;overflow:auto;animation:up .24s cubic-bezier(.2,.8,.2,1)}
+.sheet{background:var(--card);width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:18px 18px calc(18px + var(--sb));max-height:92vh;overflow:auto;animation:up .24s cubic-bezier(.2,.8,.2,1)}
 @media(min-width:600px){.bg{align-items:center}.sheet{border-radius:24px}}
 @keyframes up{from{transform:translateY(40px);opacity:0}}@keyframes fade{from{opacity:0}}
 .sheet h3{margin:0 0 12px;font:400 21px 'Tiro Bangla',serif}
-.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#edf2ee;padding:4px;border-radius:14px;margin-bottom:12px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--soft);padding:4px;border-radius:14px;margin-bottom:12px}
 .seg label{text-align:center}.seg input{position:absolute;opacity:0}
 .seg span{display:block;padding:10px 6px;border-radius:11px;font-weight:600;font-size:14px;color:var(--mute)}
 .seg input:checked+span.p{background:var(--pabo);color:#fff}.seg input:checked+span.d{background:var(--dibo);color:#fff}
 .f{display:block;margin-bottom:11px}.f>span{display:block;font-size:12.5px;font-weight:600;color:var(--mute);margin-bottom:4px}
-.f input{width:100%;padding:12px 13px;border-radius:12px;border:1px solid #cfdcd3;background:#fbfdfb;outline:none;font-size:16px}
+.f input{width:100%;padding:12px 13px;border-radius:12px;border:1px solid var(--bd);background:var(--inp);outline:none;font-size:16px}
 .f input:focus{border-color:var(--ink2);box-shadow:0 0 0 3px rgba(29,74,66,.15)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{width:100%;padding:14px;border-radius:14px;background:var(--ink);color:#fff;font-weight:700;font-size:16px;margin-top:4px}
-.btn.alt{background:#edf2ee;color:var(--ink)}.btn.red{background:var(--dibo)}
-.mi{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:14px 12px;border-radius:14px;font-weight:600;background:#f3f7f4;margin-bottom:8px}
+.btn{width:100%;padding:14px;border-radius:14px;background:var(--btn);color:#fff;font-weight:700;font-size:16px;margin-top:4px}
+.btn.alt{background:var(--soft);color:var(--text)}.btn.red{background:var(--dibo)}
+.mi{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:14px 12px;border-radius:14px;font-weight:600;background:var(--soft);margin-bottom:8px}
 .quick{display:flex;gap:8px;margin:-4px 0 10px}
 .toast{position:fixed;left:50%;bottom:calc(92px + var(--sb));transform:translate(-50%,30px);background:var(--ink);color:#fff;padding:12px 16px;border-radius:14px;display:flex;gap:14px;align-items:center;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:80;max-width:92vw}
 .toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 .toast.err{background:var(--dibo)}.toast button{color:var(--gold);font-weight:700}
-@media print{.nav,.fab,.top button,.search,.acts,.toast{display:none!important}.sec{display:block!important}body{background:#fff}.top{padding-bottom:50px}main{display:block}}
+@media print{:root{--paper:#fff;--card:#fff;--text:#16241f;--mute:#6b7d75;--line:#dde7e0;--soft:#eef3ef;--softp:#e1f3ec;--softd:#fdecef;--pabo:#0e7a63;--dibo:#c0264b;--rule:transparent}.nav,.fab,.top button,.search,.acts,.toast{display:none!important}.sec{display:block!important}body{background:#fff}.top{padding-bottom:50px}main{display:block}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -153,11 +156,20 @@ body[data-tab=hist] .nav [data-t=hist]{color:var(--ink);background:#e8eeea}
 
 <!-- Pay -->
 <div class="bg" id="m-pay"><form class="sheet" id="f-pay">
-  <h3>টাকা জমা</h3>
+  <h3 id="pay-h">টাকা কমান</h3>
   <p id="pay-info" style="margin:0 0 12px;color:var(--mute);font-size:14px"></p>
   <label class="f"><span>কত টাকা?</span><input id="p-amt" type="number" inputmode="decimal" min="1" step="any" required></label>
   <div class="quick"><button type="button" class="chip" id="p-all">সবটা</button><button type="button" class="chip" id="p-half">অর্ধেক</button></div>
-  <button class="btn">জমা নিন</button>
+  <button class="btn">নিশ্চিত করুন</button>
+  <button type="button" class="btn alt" data-close style="margin-top:8px">বাতিল</button>
+</form></div>
+
+<!-- More -->
+<div class="bg" id="m-more"><form class="sheet" id="f-more">
+  <h3 id="more-h">আরও যোগ করুন</h3>
+  <p id="more-info" style="margin:0 0 12px;color:var(--mute);font-size:14px"></p>
+  <label class="f"><span>কত টাকা বাড়ছে?</span><input id="m-amt" type="number" inputmode="decimal" min="1" step="any" required></label>
+  <button class="btn">খাতায় যোগ করুন</button>
   <button type="button" class="btn alt" data-close style="margin-top:8px">বাতিল</button>
 </form></div>
 
@@ -167,7 +179,7 @@ body[data-tab=hist] .nav [data-t=hist]{color:var(--ink);background:#e8eeea}
   <button class="mi" id="x-exp">⬇ ব্যাকআপ ডাউনলোড (ফাইল)</button>
   <button class="mi" id="x-imp">⬆ ব্যাকআপ ফেরত আনুন</button>
   <button class="mi" id="x-prn">🖨 প্রিন্ট করুন</button>
-  <button class="mi" id="x-clr" style="color:var(--dibo);background:#fdecef">🗑 সব হিসাব মুছুন</button>
+  <button class="mi" id="x-clr" style="color:var(--dibo);background:var(--softd)">🗑 সব হিসাব মুছুন</button>
   <input type="file" id="x-file" accept="application/json" hidden>
   <button class="btn alt" data-close>বন্ধ করুন</button>
 </div></div>
@@ -205,8 +217,8 @@ function row(d){
   const sms=d.phone&&d.type==='pabo'?`<a class="chip" href="sms:${esc(d.phone)}?body=${encodeURIComponent(`${d.name}, আপনার কাছে আমার ${money(d.amount)} পাওনা আছে। সুবিধামতো দিয়ে দিলে ভালো হয়।`)}">✉ মনে করান</a>`:'';
   return `<article class="row ${d.type}" data-id="${d.id}">
   <div class="main" data-act="tog"><div class="who"><b>${esc(d.name)}</b><span class="meta">${fdate(d.date)} · ${ago(d.date)}${d.note?' · '+esc(d.note):''}</span></div><div class="amt">${money(d.amount)}</div></div>
-  ${paid>0?`<div class="prog"><i style="width:${Math.min(100,paid/init*100)}%"></i></div><div class="pmeta">মোট ${money(init)} এর মধ্যে ${money(paid)} জমা হয়েছে</div>`:''}
-  <div class="acts"><button class="chip" data-act="pay">＋ জমা</button><button class="chip go" data-act="settle">✓ সম্পূর্ণ শোধ</button>${call}${sms}<button class="chip rm" data-act="del">মুছুন</button></div></article>`}
+  ${paid>0?`<div class="prog"><i style="width:${Math.min(100,paid/init*100)}%"></i></div><div class="pmeta">মোট ${money(init)} এর মধ্যে ${money(paid)} কমেছে</div>`:''}
+  <div class="acts"><button class="chip" data-act="pay">− ${d.type==='pabo'?'পেলাম':'দিলাম'}</button><button class="chip" data-act="more">＋ ${d.type==='pabo'?'আবার দিলাম':'আবার নিলাম'}</button><button class="chip go" data-act="settle">✓ সম্পূর্ণ শোধ</button>${call}${sms}<button class="chip rm" data-act="del">মুছুন</button></div>${(d.log||[]).length?`<div class="log">${d.log.slice(-6).reverse().map(l=>`<div><span>${fdate(l.d)}</span><b class="${l.k==='+'?'pl':'mi2'}">${l.k==='+'?'＋':'−'} ${money(l.a)}</b></div>`).join('')}</div>`:''}</article>`}
 
 function render(){
   const q=$('q').value.trim().toLowerCase();
@@ -237,7 +249,8 @@ document.querySelector('main').addEventListener('click',e=>{
   const el=e.target.closest('[data-act]');if(!el)return;
   const r=el.closest('.row'),id=+r.dataset.id,d=debts.find(x=>x.id===id),a=el.dataset.act;
   if(a==='tog')r.classList.toggle('open');
-  if(a==='pay'){payId=id;$('pay-info').innerHTML=`<b>${esc(d.name)}</b> – বাকি আছে ${money(d.amount)}`;$('p-amt').value='';$('p-amt').max=d.amount;open('m-pay');setTimeout(()=>$('p-amt').focus(),120)}
+  if(a==='pay'){payId=id;$('pay-h').textContent=d.type==='pabo'?'টাকা পেলাম':'টাকা দিলাম';$('pay-info').innerHTML=`<b>${esc(d.name)}</b> – বাকি আছে ${money(d.amount)}`;$('p-amt').value='';$('p-amt').max=d.amount;open('m-pay');setTimeout(()=>$('p-amt').focus(),120)}
+  if(a==='more'){payId=id;$('more-h').textContent=d.type==='pabo'?'আবার ধার দিলাম':'আবার ধার নিলাম';$('more-info').innerHTML=`<b>${esc(d.name)}</b> – এখন ${d.type==='pabo'?'পাবেন':'দেবেন'} ${money(d.amount)}`;$('m-amt').value='';open('m-more');setTimeout(()=>$('m-amt').focus(),120)}
   if(a==='settle')settle(id);
   if(a==='del'){const i=debts.findIndex(x=>x.id===id);undoItem={d:debts[i],i};debts.splice(i,1);save();toast('হিসাবটি মুছে গেছে',{undo:1})}
 });
@@ -262,9 +275,14 @@ $('f-pay').addEventListener('submit',e=>{
   e.preventDefault();const d=debts.find(x=>x.id===payId),p=parseFloat($('p-amt').value);
   if(!d||!(p>0)){toast('সঠিক টাকা দিন',{err:1});return}
   if(p>d.amount){toast('বাকির চেয়ে বেশি জমা হবে না',{err:1});return}
-  closeAll();d.initialAmount=d.initialAmount||d.amount;d.amount=+(d.amount-p).toFixed(2);
+  closeAll();d.initialAmount=d.initialAmount||d.amount;d.amount=+(d.amount-p).toFixed(2);(d.log=d.log||[]).push({k:'-',a:p,d:localDate()});
   if(d.amount<=0)settle(d.id);else{save();toast(`${money(p)} জমা হলো, বাকি ${money(d.amount)}`)}});
 
+$('f-more').addEventListener('submit',e=>{
+  e.preventDefault();const d=debts.find(x=>x.id===payId),p=parseFloat($('m-amt').value);
+  if(!d||!(p>0)){toast('সঠিক টাকা দিন',{err:1});return}
+  d.initialAmount=(d.initialAmount||d.amount)+p;d.amount=+(d.amount+p).toFixed(2);(d.log=d.log||[]).push({k:'+',a:p,d:localDate()});
+  closeAll();save();toast(`${money(p)} যোগ হলো, এখন মোট ${money(d.amount)}`)});
 $('menu-btn').onclick=()=>open('m-menu');
 $('x-prn').onclick=()=>{closeAll();setTimeout(print,200)};
 $('x-clr').onclick=()=>{closeAll();open('m-clr')};
@@ -273,6 +291,9 @@ $('x-exp').onclick=()=>{const b=new Blob([JSON.stringify({debts,history:hist},nu
 $('x-imp').onclick=()=>$('x-file').click();
 $('x-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);if(!Array.isArray(j.debts)||!Array.isArray(j.history))throw 0;debts=j.debts;hist=j.history;save();closeAll();toast('ব্যাকআপ ফেরত এসেছে ✓')}catch(x){toast('ফাইলটি সঠিক ব্যাকআপ নয়',{err:1})}};r.readAsText(f);e.target.value=''};
 
+try{const ic="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="#12302b"/><rect x="96" y="96" width="320" height="320" rx="80" fill="#e3b23c"/><text x="256" y="330" font-size="220" text-anchor="middle" fill="#12302b" font-family="serif">খা</text></svg>');
+const mf={name:'ডিজিটাল খাতা',short_name:'খাতা',display:'standalone',start_url:location.href.split('#')[0],background_color:'#12302b',theme_color:'#12302b',icons:[{src:ic,sizes:'512x512',type:'image/svg+xml',purpose:'any'}]};
+const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/manifest+json'}));document.head.appendChild(l)}catch(e){}
 render();
 </script>
 </body>
