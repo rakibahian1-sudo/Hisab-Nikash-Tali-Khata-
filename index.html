@@ -9,7 +9,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script>try{var t=localStorage.getItem("tali_theme");if(t&&t!=="auto")document.documentElement.dataset.theme=t}catch(e){}</script>
+<script>try{var t=localStorage.getItem("tali_theme"),r=document.documentElement;if(t==="light"||t==="dark")r.dataset.theme=t;else if(t==="time"){var h=new Date().getHours();r.dataset.theme=(h>=18||h<6)?"dark":"light"}}catch(e){}</script>
 <title>ডিজিটাল খাতা – পাবো দেবোর হিসাব</title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Tiro+Bangla&display=swap" rel="stylesheet">
 <style>
@@ -62,7 +62,7 @@ main{display:grid;gap:18px;margin-top:14px}
 .acts{display:none;flex-wrap:wrap;gap:8px;margin-top:12px}
 .row.open .acts{display:flex}
 .chip{padding:8px 13px;border-radius:11px;font-size:13.5px;font-weight:600;background:var(--soft);color:var(--chipt);text-decoration:none;display:inline-flex;gap:5px;align-items:center}
-.chip.go{background:var(--pabo);color:#fff}.chip.rm{color:var(--dibo);background:var(--softd)}.log{display:none;font-size:12.5px;color:var(--mute);margin-top:10px;border-top:1px dashed var(--line);padding-top:6px}.row.open .log{display:block}.log div{display:flex;justify-content:space-between;padding:2px 0}.log .pl{color:var(--dibo)}.log .mi2{color:var(--pabo)}.row.dibo .log .pl{color:var(--dibo)}
+.chip.go{background:var(--pabo);color:#fff}.chip.rm{color:var(--dibo);background:var(--softd)}.log{display:block;font-size:12.5px;color:var(--mute);margin-top:10px;border-top:1px dashed var(--line);padding-top:6px}.row.open .log{display:block}.log div{display:flex;justify-content:space-between;padding:2px 0}.log .pl{color:var(--dibo)}.log .mi2{color:var(--pabo)}.row.dibo .log .pl{color:var(--dibo)}
 .empty{padding:34px 20px;text-align:center;color:var(--mute);font-size:14px}
 .empty b{display:block;font:400 18px 'Tiro Bangla',serif;color:var(--text);margin-bottom:4px}
 .hrow{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);border-left:5px solid var(--line);font-size:14px}
@@ -144,6 +144,21 @@ body[data-mode=khata] .modes [data-m=khata],body[data-mode=my] .modes [data-m=my
 .daily .ds{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:6px 0 4px;font-size:13px}.daily .ds span{background:rgba(255,255,255,.1);padding:3px 10px;border-radius:20px}
 .blk a{color:var(--pabo);font-weight:600;text-decoration:none}
 .crow.hh{cursor:default;opacity:.78;border-left:5px solid var(--line)}
+
+.log .more{display:none}.row.open .log .more{display:flex}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+.hero,.card2,.blk,.daily{animation:rise .45s both}
+.hint{font-size:12.5px;color:var(--mute);margin-top:10px}
+.rl{display:flex;align-items:baseline;gap:6px;padding:5px 0;font-size:14.5px}.rl i{flex:1;border-bottom:1px dotted var(--bd);transform:translateY(-3px)}
+.rl em{font:400 17px 'Tiro Bangla',serif;font-style:normal}.rl small{color:var(--mute);font-size:11.5px;margin-left:4px}
+.rl.b{font-weight:700;border-top:1px solid var(--line);margin-top:4px;padding-top:9px}.rl .m{color:var(--dibo)}.rl .p{color:var(--pabo)}
+.daily b.big{font-size:38px}.daily .st2{font-size:13px;margin-top:6px;opacity:.95}.daily .st2.bad{color:#ffb3c1}.daily .st2.ok{color:#9ff0cf}
+.xf{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}.xf .f{margin:0}.xf .wide{grid-column:1/-1}
+.chs{width:100%;height:auto;display:block;margin-top:10px}.cb{fill:var(--pabo)}.cb.ov{fill:var(--dibo)}.cb.td{stroke:var(--gold);stroke-width:1.6}
+.tdbg{fill:var(--gold);opacity:.13}.cl{stroke:var(--mute);stroke-dasharray:4 3;stroke-width:1.2}.cl2{stroke:var(--gold);stroke-dasharray:4 3;stroke-width:1.6}
+.ct{font-size:9px;fill:var(--mute)}.lg{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;color:var(--mute);margin-top:6px}.lg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+.er{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}.er:last-child{border:0}
+.sg{display:flex;background:var(--soft);padding:3px;border-radius:12px;margin:0 0 10px}.sg button{flex:1;padding:8px 4px;border-radius:9px;font-size:13px;font-weight:600;color:var(--mute)}.sg button.on{background:var(--ink2);color:#fff}
 </style>
 </head>
 <body data-tab="pabo" data-mode="my">
@@ -151,7 +166,7 @@ body[data-mode=khata] .modes [data-m=khata],body[data-mode=my] .modes [data-m=my
 <header class="top">
   <div class="brand"><div class="logo">খা</div><div><h1>ডিজিটাল খাতা</h1><p>পাবো, দেবো – সব হিসাব হাতের মুঠোয়</p></div></div>
   <div class="hbtns"><button class="icon-btn" id="th-btn" aria-label="থিম">◐</button><button class="icon-btn" id="menu-btn" aria-label="মেনু">⋯</button></div>
-  <div class="modes"><button data-m="my">💰 আমার মাস</button><button data-m="khata">📒 খাতা (পাবো/দেবো)</button></div>
+  <div class="modes"><button data-m="my">💰 মাসের হিসাব</button><button data-m="khata">📒 খাতা (পাবো/দেবো)</button></div>
 </header>
 
 <div class="wrap">
@@ -176,19 +191,31 @@ body[data-mode=khata] .modes [data-m=khata],body[data-mode=my] .modes [data-m=my
 <div id="v-my">
   <section class="hero"><div class="hero-in">
     <div class="mnav"><button class="a" id="my-prev" aria-label="আগের মাস">‹</button><div id="my-cur"><b id="y-lbl"></b><small id="y-sub"></small></div><button class="a" id="my-next" aria-label="পরের মাস">›</button></div>
-    <div class="s3"><div><span>এখন হাতে আছে</span><b id="y-inc">৳ ০</b></div><div><span>ফিক্সড + দেনা</span><b class="r" id="y-out">৳ ০</b></div><div><span>বণ্টনযোগ্য</span><b class="g" id="y-left">৳ ০</b></div></div>
+    <div class="s3"><div><span id="y-bl">ভিত্তি</span><b id="y-inc">৳ ০</b></div><div><span>ফিক্সড + দেনা</span><b class="r" id="y-out">৳ ০</b></div><div><span>বণ্টনযোগ্য</span><b class="g" id="y-left">৳ ০</b></div></div>
     <div class="bar"><i id="y-bar" style="width:0"></i></div>
     <div class="net"><span id="y-l"></span><b id="y-p"></b></div>
   </div></section>
+  <div class="card2"><div class="incg" style="row-gap:10px">
+    <label class="f"><span>মাসের বেতন ৳</span><input id="y-sal" type="number" inputmode="decimal" min="0" step="any" placeholder="০"></label>
+    <label class="f"><span>এখন হাতে কত আছে ৳</span><input id="y-cash" type="number" inputmode="decimal" min="0" step="any" placeholder="ঐচ্ছিক"></label>
+    <label class="f"><span>হিসাবের শুরু</span><input id="y-from" type="date"></label>
+    <label class="f"><span>শেষ তারিখ (পরের বেতন)</span><input id="y-end" type="date"></label></div>
+    <div class="hint" id="y-hint"></div></div>
   <div class="daily" id="y-daily"></div>
-  <div class="card2"><div class="incg"><label class="f"><span>মাসের বেতন ৳ (% হিসাবের জন্য)</span><input id="y-sal" type="number" inputmode="decimal" min="0" step="any"></label><label class="f"><span>এখন হাতে আছে ৳</span><input id="y-cash" type="number" inputmode="decimal" min="0" step="any"></label></div></div>
-  <div class="blk"><h2>ফিক্সড খরচ <small id="y-fs"></small></h2><p>টাকা লিখে টিক দিলেই সেটা ফিক্সড ধরা হবে – টিক না দিলে ০</p>
+  <div class="card2"><div style="font:400 18px 'Tiro Bangla',serif;margin-bottom:8px">আজকের খরচ লিখুন</div>
+    <div class="xf"><label class="f"><span>টাকা ৳</span><input id="x-amt" type="number" inputmode="decimal" min="0" step="any"></label><label class="f"><span>তারিখ</span><input id="x-date" type="date"></label>
+    <label class="f wide"><span>কীসে? (ঐচ্ছিক)</span><input id="x-note" autocomplete="off"></label></div>
+    <button class="btn" id="x-add" style="margin-top:0">＋ খরচ যোগ করুন</button>
+    <div id="y-chart"></div><div id="y-exp" style="margin-top:8px"></div></div>
+  <div class="blk"><h2>হিসাবের ধাপ</h2><p>বেতন বা হাতের টাকা থেকে কীভাবে বাকিটা এলো</p><div class="card2" id="y-steps" style="margin-top:0"></div></div>
+  <div class="blk"><h2>ফিক্সড খরচ <small id="y-fs"></small></h2><p>টাকা লিখে টিক দিলেই মূল টাকা থেকে কাটা হবে – টিক না দিলে ০</p>
     <div class="card2" style="margin-top:0"><div id="y-fx"></div><button class="chip" id="y-fadd" style="margin-top:10px">＋ ফিক্সড খরচ যোগ করুন</button></div></div>
   <div class="blk"><h2>দেবো – শোধ করতে হবে <small id="y-ds"></small></h2><p>টিক থাকলে এ মাসে শোধ করবেন ধরা হয় · <a href="#" data-go="dibo">খাতায় যান ›</a></p><div class="sheetlist" id="y-dl"></div></div>
   <div class="blk"><h2>পাবো – ফেরত আসতে পারে <small id="y-ps"></small></h2><p>টিক দিলে এ মাসে পাবেন ধরে বণ্টনযোগ্য টাকা বাড়ে · <a href="#" data-go="pabo">খাতায় যান ›</a></p><div class="sheetlist" id="y-pl"></div></div>
-  <div class="blk"><h2>এই মাসে পরিশোধিত <small id="y-hs"></small></h2><p>বেতন থেকে আগেই গেছে – তাই নিচের হিসাবে ধরা হয়নি</p><div class="sheetlist" id="y-hl"></div></div>
-  <div class="blk"><h2>কোন খাতে কত খরচ করবেন <small id="y-pt"></small></h2><p>হাতের টাকা থেকে ফিক্সড ও দেনা বাদ দিয়ে বাকিটা শতকরা ভাগ হয়</p>
+  <div class="blk"><h2>কোন খাতে কত থাকবে <small id="y-pt"></small></h2><p>বণ্টনযোগ্য টাকা শতকরা ভাগ হয় · “দৈনিক” চিহ্নিত খাত থেকে প্রতিদিনের সীমা আসে</p>
+    <div class="sg" id="y-sg"><button data-sc="now">চলতি হিসাব</button><button data-sc="all">সব দেনা-পাওনা শেষে</button></div>
     <div class="card2" style="margin-top:0"><div id="y-plan"></div><button class="chip" id="y-add" style="margin-top:10px">＋ খাত যোগ করুন</button><div class="warn" id="y-w"></div></div></div>
+  <div class="blk"><h2>এই মাসে পরিশোধিত <small id="y-hs"></small></h2><p>আগেই মিটে গেছে – তাই হিসাবে ধরা হয়নি</p><div class="sheetlist" id="y-hl"></div></div>
 </div>
 </div>
 
@@ -282,7 +309,9 @@ function row(d){
   return `<article class="row ${d.type}" data-id="${d.id}">
   <div class="main" data-act="tog"><div class="who"><b>${esc(d.name)}</b><span class="meta">${fdate(d.date)} · ${ago(d.date)}${d.note?' · '+esc(d.note):''}</span></div><div class="amt">${money(d.amount)}</div></div>
   ${paid>0?`<div class="prog"><i style="width:${Math.min(100,paid/init*100)}%"></i></div><div class="pmeta">মোট ${money(init)} এর মধ্যে ${money(paid)} কমেছে</div>`:''}
-  <div class="acts"><button class="chip" data-act="pay">− ${d.type==='pabo'?'পেলাম':'দিলাম'}</button><button class="chip" data-act="more">＋ ${d.type==='pabo'?'আবার দিলাম':'আবার নিলাম'}</button><button class="chip go" data-act="settle">✓ সম্পূর্ণ শোধ</button>${call}${sms}<button class="chip rm" data-act="del">মুছুন</button></div>${(d.log||[]).length?`<div class="log">${d.log.slice(-6).reverse().map(l=>`<div><span>${fdate(l.d)}</span><b class="${l.k==='+'?'pl':'mi2'}">${l.k==='+'?'＋':'−'} ${money(l.a)}</b></div>`).join('')}</div>`:''}</article>`}
+  <div class="acts"><button class="chip" data-act="pay">− ${d.type==='pabo'?'পেলাম':'দিলাম'}</button><button class="chip" data-act="more">＋ ${d.type==='pabo'?'আবার দিলাম':'আবার নিলাম'}</button><button class="chip go" data-act="settle">✓ সম্পূর্ণ শোধ</button>${call}${sms}<button class="chip rm" data-act="del">মুছুন</button></div>${(()=>{const lg=d.log||[],plus=lg.filter(l=>l.k==='+').reduce((t,l)=>t+l.a,0),LB=d.type==='pabo'?{0:'ধার দিয়েছেন','+':'আবার দিলাম','-':'ফেরত পেলাম'}:{0:'ধার নিয়েছেন','+':'আবার নিলাম','-':'শোধ দিলাম'};
+ const rows=[{k:'0',d:d.date,a:rd(init-plus)},...lg],n=rows.length;
+ return `<div class="log">${rows.map((l,i)=>`<div class="${n-i>3?'more':''}"><span>${fdate(l.d)} · ${LB[l.k]}</span><b class="${l.k==='+'?'pl':l.k==='-'?'mi2':''}">${l.k==='+'?'＋':l.k==='-'?'−':''} ${money(l.a)}</b></div>`).join('')}</div>`})()}</article>`}
 
 function render(){
   const q=$('q').value.trim().toLowerCase();
@@ -358,80 +387,125 @@ $('x-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new File
 
 /* ===== থিম ===== */
 let th='auto';try{th=localStorage.getItem('tali_theme')||'auto'}catch(e){}
-function applyTheme(){const r=document.documentElement;if(th==='auto')delete r.dataset.theme;else r.dataset.theme=th;
- const dk=th==='dark'||(th==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches);
+const mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):null;
+const isDark=()=>th==='dark'||(th==='time'?(h=>h>=18||h<6)(new Date().getHours()):th==='auto'&&!!(mq&&mq.matches));
+function applyTheme(){const dk=isDark();document.documentElement.dataset.theme=dk?'dark':'light';
  document.querySelectorAll('meta[name=theme-color]').forEach(m=>m.setAttribute('content',dk?'#0b1512':'#12302b'));
- $('th-btn').textContent={auto:'◐',light:'☀',dark:'☾'}[th]}
-$('th-btn').onclick=()=>{th={auto:'light',light:'dark',dark:'auto'}[th];try{localStorage.setItem('tali_theme',th)}catch(e){}applyTheme();toast({auto:'থিম: ফোনের সাথে অটো',light:'থিম: লাইট',dark:'থিম: ডার্ক'}[th])};
-try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyTheme)}catch(e){}
-applyTheme();
+ $('th-btn').textContent={auto:'◐',light:'☀',dark:'☾',time:'🕒'}[th]}
+$('th-btn').onclick=()=>{th={auto:'light',light:'dark',dark:'time',time:'auto'}[th];try{localStorage.setItem('tali_theme',th)}catch(e){}applyTheme();toast({auto:'থিম: ফোনের সেটিং অনুযায়ী',light:'থিম: লাইট',dark:'থিম: ডার্ক',time:'থিম: সময় অনুযায়ী (সন্ধ্যা ৬টা–সকাল ৬টা ডার্ক)'}[th])};
+try{mq.addEventListener('change',applyTheme)}catch(e){}
+document.addEventListener('visibilitychange',applyTheme);setInterval(applyTheme,6e5);applyTheme();
 
-/* ===== আমার মাস (হোম) ===== */
+/* ===== মাসের হিসাব (হোম) ===== */
 const MONF=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
 const lj=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))||f}catch(e){return f}};
 const rd=n=>Math.round(n*100)/100,sm=a=>a.reduce((t,d)=>t+d.amount,0);
-let curM=localDate().slice(0,7);
+const pd=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const diff=(a,b)=>Math.round((pd(b)-pd(a))/864e5),addD=(s,n)=>{const d=pd(s);d.setDate(d.getDate()+n);return ymd(d)};
+let curM=localDate().slice(0,7),planAll=false;
 const shift=n=>{const [y,m]=curM.split('-').map(Number),d=new Date(y,m-1+n,1);curM=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderMy()};
 function setMode(m){document.body.dataset.mode=m;try{localStorage.setItem('tali_mode',m)}catch(e){}scrollTo({top:0})}
 document.querySelector('.modes').onclick=e=>{const b=e.target.closest('[data-m]');if(b)setMode(b.dataset.m)};
 try{document.body.dataset.mode=localStorage.getItem('tali_mode')==='khata'?'khata':'my'}catch(e){}
-const DEF=[{n:'দৈনিক ব্যবহার',p:70,d:1},{n:'জরুরি ফান্ড (Urgent)',p:10},{n:'ভ্রমণ লিমিট (Travel)',p:10},{n:'হাতখরচ / ফান (Extra)',p:10},{n:'বিনিয়োগ (Invest)',p:0}];
+const DEF=[{n:'জরুরি ফান্ড',p:10},{n:'বিনিয়োগ',p:25},{n:'বাড়ি ফান্ড',p:35},{n:'ভ্রমণ লিমিট',p:15},{n:'হাতখরচ (দৈনিক ব্যবহার)',p:15,d:1}];
 const DFX=[{id:'rent',n:'বাসা ভাড়া',a:0},{id:'food',n:'খাওয়া খরচ',a:0},{id:'dps',n:'DPS কিস্তি',a:0}];
-const fresh=()=>({plan:DEF.map(x=>({...x})),fixed:DFX.map(x=>({...x})),m:{}});
-function fixMy(){if(!my.m)my.m={};const f=my.fixed;
- if(!f||(f.length===3&&f[1].a===3000&&f[2].a===0&&(f[0].a===4000||f[0].a===3500)))my.fixed=DFX.map(x=>({...x}));
- const o=[15,39,23,23];if(!my.plan||!my.plan.length||(my.plan.length===4&&my.plan.every((x,i)=>x.p===o[i])))my.plan=DEF.map(x=>({...x}))}
+const fresh=()=>({v:3,plan:DEF.map(x=>({...x})),fixed:DFX.map(x=>({...x})),m:{}});
+function fixMy(){
+ if(!my.v||my.v<3){const f=my.fixed;my.m={};my.v=3;if(!f||f.every(x=>[0,3000,3500,4000].includes(x.a)))my.fixed=DFX.map(x=>({...x}));my.plan=DEF.map(x=>({...x}))}
+ if(!my.m)my.m={};if(!my.fixed)my.fixed=DFX.map(x=>({...x}));if(!my.plan||!my.plan.length)my.plan=DEF.map(x=>({...x}))}
 let my=lj('tali_khata_my',null);if(!my)my=fresh();fixMy();
-function gy(){const m=my.m[curM],cm=curM===localDate().slice(0,7);
- if(m){m.sd=m.sd||[];m.gp=m.gp||[];m.sf=m.sf||[];m.sel=m.sel||[];if(m.cash===undefined)m.cash=cm?9000:(m.sal||0);return m}
- const ks=Object.keys(my.m).filter(k=>k<curM).sort(),l=ks.length?my.m[ks[ks.length-1]]:null,sl=l?l.sal:17500;
- return{sal:sl,cash:l?sl:9000,sd:[],gp:[],sf:[],sel:l&&l.sel?[...l.sel]:[]}}
+function gy(){let m=my.m[curM];
+ if(!m){const ks=Object.keys(my.m).filter(k=>k<curM).sort(),l=ks.length?my.m[ks[ks.length-1]]:null;
+  return{sal:l?l.sal:0,cash:'',from:'',end:'',sd:[],gp:[],sel:l?[...l.sel]:[],exp:[]}}
+ ['sd','gp','sel','exp'].forEach(k=>m[k]=m[k]||[]);return m}
 const ey=()=>my.m[curM]||(my.m[curM]=JSON.parse(JSON.stringify(gy())));
-function renderMy(){
- const y=gy(),[yy,mo]=curM.split('-'),cash=y.cash||0,bs=y.sal>0?y.sal:cash;
+function bounds(y){const [yy,mm]=curM.split('-').map(Number),f=y.from||curM+'-01',e=y.end||ymd(new Date(yy,mm,0));return[f,e<f?f:e]}
+function calcMy(all){
+ const y=gy(),cash=parseFloat(y.cash)||0,sal=y.sal||0,base=cash>0?cash:sal;
  const D=debts.filter(d=>d.type==='dibo'),P=debts.filter(d=>d.type==='pabo');
- const dp=D.filter(d=>!y.sd.includes(d.id)),pp=P.filter(d=>y.gp.includes(d.id));
+ const dp=all?D:D.filter(d=>!y.sd.includes(d.id)),pp=all?P:P.filter(d=>y.gp.includes(d.id));
  const F=my.fixed.filter(f=>y.sel.includes(f.id)),tf=F.reduce((t,f)=>t+(+f.a||0),0),td=sm(dp),tp=sm(pp);
- const out=tf+td,free=rd(cash+tp-out),base=Math.max(0,free);
- const pc=a=>bs>0?bn(Math.round(a/bs*100))+'%':'–%';
- const dim=new Date(yy,mo,0).getDate(),now=localDate(),cur=curM===now.slice(0,7),dl=cur?dim-(+now.slice(8))+1:dim;
- $('y-lbl').textContent=`${MONF[mo-1]} ${bn(yy)}`;$('y-sub').textContent=cur?`আজ সহ ${bn(dl)} দিন বাকি`:`${bn(dim)} দিনের মাস`;
- [['y-sal','sal'],['y-cash','cash']].forEach(([i,k])=>{if(document.activeElement!==$(i))$(i).value=y[k]||''});
- $('y-inc').textContent=money(cash);$('y-out').textContent=money(out);$('y-left').textContent=(free<0?'−':'')+money(Math.abs(free));$('y-left').className=free<0?'r':'g';
- const lp=cash>0?Math.round(free/cash*100):0;
- $('y-bar').style.width=(cash>0?Math.min(100,Math.max(0,free/cash*100)):0)+'%';
- $('y-l').textContent=!cash?'আগে এখন হাতে কত আছে লিখুন':free<0?'ঘাটতি! হাতের টাকার চেয়ে খরচ ও দেনা বেশি':`ফিক্সড ও দেনা বাদে হাতের ${bn(lp)}% বাকি থাকবে`;$('y-p').textContent=cash?bn(lp)+'%':'';
- const fd=my.plan.findIndex(x=>x.d),fi=fd<0?0:fd,pl=my.plan[fi],dAmt=rd(base*(pl.p||0)/100),hPer=rd(dAmt/dl);
- $('y-daily').innerHTML=cash?`<small>প্রতিদিন ব্যবহার করতে পারবেন${free<0?' – ঘাটতি আছে!':''}</small><b>${money(hPer)}</b><div class="ds"><span>💵 “${esc(pl.n.split(' (')[0])}” ভাগে ${money(dAmt)}</span><span>📅 ${bn(dl)} দিন</span></div><small>বাকি ${money(base)} এর ${bn(pl.p||0)}% ভাগ ÷ ${bn(dl)} দিন</small>`:'<small>আগে “এখন হাতে আছে” লিখুন – তারপর দৈনিক খরচের সীমা দেখাবে</small>';
- $('y-fx').innerHTML=my.fixed.map((f,i)=>`<div class="fx"><input type="checkbox" data-fk="${f.id}" ${y.sel.includes(f.id)?'checked':''} aria-label="ফিক্সড ধরুন"><input class="fn" data-fi="${i}" data-ff="n" value="${esc(f.n)}"><input class="fa" data-fi="${i}" data-ff="a" type="number" inputmode="decimal" min="0" step="any" value="${f.a}"><button class="x" data-frm="${i}" aria-label="মুছুন">✕</button><small>বেতনের ${pc(+f.a||0)}</small></div>`).join('')||'<div class="empty">কোনো ফিক্সড খরচ নেই</div>';
- $('y-fs').textContent=`${money(tf)} (${pc(tf)})`;
- const li=(d,c,k,cl)=>`<label class="crow ${cl}"><input type="checkbox" data-k="${k}" data-id="${d.id}" ${c?'checked':''}><span class="who"><b>${esc(d.name)}</b><span class="meta">${d.note?esc(d.note):fdate(d.date)}</span></span><span class="rt"><b class="amt2">${money(d.amount)}</b><small>বেতনের ${pc(d.amount)}</small></span></label>`;
- $('y-dl').innerHTML=D.length?D.map(d=>li(d,!y.sd.includes(d.id),'sd','dd')).join(''):'<div class="empty"><b>কোনো দেনা বাকি নেই 🎉</b>খাতায় দেবো যোগ করলে এখানে আসবে</div>';
- $('y-pl').innerHTML=P.length?P.map(d=>li(d,y.gp.includes(d.id),'gp','pp2')).join(''):'<div class="empty"><b>কারও কাছে পাওনা নেই</b>খাতায় পাবো যোগ করলে এখানে আসবে</div>';
- $('y-ds').textContent=D.length?`ধরা: ${money(td)} (${pc(td)})`:'';$('y-ps').textContent=P.length?`ধরা: ${money(tp)} (${pc(tp)})`:'';
- const H=[...hist.filter(h=>(h.settledDate||'').startsWith(curM)).map(h=>({n:h.name,a:h.amount,d:h.settledDate,t:h.type})),...debts.flatMap(d=>(d.log||[]).filter(l=>l.k==='-'&&(l.d||'').startsWith(curM)).map(l=>({n:d.name,a:l.a,d:l.d,t:d.type})))].sort((a,b)=>b.d.localeCompare(a.d));
- const th=H.filter(h=>h.t==='dibo').reduce((t,h)=>t+h.a,0);
- $('y-hl').innerHTML=H.length?H.map(h=>`<div class="crow hh"><span class="who"><b>✓ ${esc(h.n)}</b><span class="meta">${fdate(h.d)} · ${h.t==='dibo'?'দিয়েছেন':'পেয়েছেন'}</span></span><span class="rt"><b class="amt2">${money(h.a)}</b><small>বেতনের ${pc(h.a)}</small></span></div>`).join(''):'<div class="empty">এ মাসে এখনো কিছু পরিশোধ হয়নি</div>';
- $('y-hs').textContent=th?`দিয়েছেন ${money(th)}`:'';
- const tot=my.plan.reduce((t,x)=>t+(+x.p||0),0);
- $('y-plan').innerHTML=my.plan.map((x,i)=>`<div class="pr"><div class="l1"><input data-i="${i}" data-f="n" value="${esc(x.n)}" aria-label="খাতের নাম"><input class="pn" data-i="${i}" data-f="p" type="number" inputmode="decimal" min="0" max="100" value="${x.p}" aria-label="শতাংশ"><span>%</span><label class="rd"><input type="radio" name="dr" data-dr="${i}" ${i===fi?'checked':''}>দৈনিক</label>${my.plan.length>1?`<button class="x" data-rm="${i}" aria-label="মুছুন">✕</button>`:''}</div><div class="l2"><div class="pg"><i style="width:${Math.min(100,x.p)}%"></i></div><b>${money(rd(base*x.p/100))}</b></div></div>`).join('');
+ const rem=rd(base-tf-td+tp);return{y,cash,sal,base,D,P,dp,pp,F,tf,td,tp,rem,free:Math.max(0,rem)}}
+function chartSvg(f,N,planned,tl,em,today){
+ const W=340,H=150,L=6,T=14,Bm=22,iw=W-2*L,ih=H-T-Bm,bw=iw/N,mx=Math.max(planned*1.5,tl*1.3,...Object.values(em),1),Y=v=>T+ih-v/mx*ih,step=Math.max(1,Math.ceil(N/8));
+ let b='',t='';
+ for(let i=0;i<N;i++){const d=addD(f,i),v=em[d]||0,x=L+i*bw,lim=d<today?planned:tl;
+  if(d===today)b+=`<rect class="tdbg" x="${x}" y="${T}" width="${bw}" height="${ih}"/>`;
+  if(v>0)b+=`<rect class="cb${v>lim+.001?' ov':''}" x="${x+bw*.14}" y="${Y(v)}" width="${bw*.72}" height="${T+ih-Y(v)}" rx="2"/>`;
+  if(i%step===0)t+=`<text class="ct" x="${x+bw/2}" y="${H-7}" text-anchor="middle">${bn(+d.slice(8))}</text>`}
+ const ti=Math.min(N,Math.max(0,diff(f,today))),x1=L+ti*bw;
+ if(ti>0)b+=`<line class="cl" x1="${L}" x2="${x1}" y1="${Y(planned)}" y2="${Y(planned)}"/>`;
+ if(ti<N)b+=`<line class="cl2" x1="${x1}" x2="${W-L}" y1="${Y(tl)}" y2="${Y(tl)}"/><text class="ct" x="${W-L}" y="${Y(tl)-3}" text-anchor="end">সীমা ${bn(Math.round(tl))}</text>`;
+ return `<svg class="chs" viewBox="0 0 ${W} ${H}" role="img" aria-label="দৈনিক খরচের চার্ট"><line x1="${L}" x2="${W-L}" y1="${T+ih}" y2="${T+ih}" stroke="var(--line)"/>${b}${t}</svg><div class="lg"><span><i style="background:var(--pabo)"></i>খরচ</span><span><i style="background:var(--dibo)"></i>সীমার বেশি</span><span><i style="background:var(--gold)"></i>আজকের সীমা</span></div>`}
+function renderMy(){
+ const c=calcMy(false),a=calcMy(true),y=c.y,[f,e]=bounds(y),today=localDate(),N=diff(f,e)+1,started=today>=f,over=today>e;
+ const pc=v=>c.base>0?bn(Math.round(v/c.base*100))+'%':'–';
+ const elapsed=!started?0:over?N:diff(f,today),dleft=over?0:diff(started?today:f,e)+1;
+ $('y-lbl').textContent=`${MONF[curM.split('-')[1]-1]} ${bn(curM.split('-')[0])}`;$('y-sub').textContent=c.base?`${bn(N)} দিনের হিসাব`:'শুরু করতে বেতন লিখুন';
+ [['y-sal',y.sal],['y-cash',y.cash],['y-from',y.from],['y-end',y.end]].forEach(([i,v])=>{if(document.activeElement!==$(i))$(i).value=v||''});
+ if(!$('x-date').value)$('x-date').value=today;
+ $('y-hint').textContent=`সময়: ${fdate(f)} → ${fdate(e)} · মোট ${bn(N)} দিন${over?' · সময় শেষ':` · বাকি ${bn(dleft)} দিন`}. শুধু বেতন লিখলে বেতন থেকে, “হাতে কত আছে” লিখলে সেটা থেকেই হিসাব হবে।`;
+ /* হিরো */
+ $('y-bl').textContent=c.cash>0?'এখন হাতে আছে':'মাসের বেতন';$('y-inc').textContent=money(c.base);$('y-out').textContent=money(c.tf+c.td);
+ $('y-left').textContent=(c.rem<0?'−':'')+money(Math.abs(c.rem));$('y-left').className=c.rem<0?'r':'g';
+ const lp=c.base>0?Math.round(c.rem/c.base*100):0;$('y-bar').style.width=(c.base>0?Math.min(100,Math.max(0,c.rem/c.base*100)):0)+'%';
+ $('y-l').textContent=!c.base?'বেতন বা হাতের টাকা লিখুন':c.rem<0?'ঘাটতি! খরচ ও দেনা হাতের টাকার চেয়ে বেশি':`ফিক্সড ও দেনা বাদে ${bn(lp)}% বাকি`;$('y-p').textContent=c.base?bn(lp)+'%':'';
+ /* দৈনিক */
+ const pl=my.plan.find(x=>x.d)||my.plan[my.plan.length-1],B=rd(c.free*(pl.p||0)/100),em={};y.exp.forEach(x=>em[x.d]=(em[x.d]||0)+x.a);
+ const spent=sm(y.exp.map(x=>({amount:x.a}))),sb=sm(y.exp.filter(x=>x.d<today).map(x=>({amount:x.a}))),st0=sm(y.exp.filter(x=>x.d===today).map(x=>({amount:x.a})));
+ const planned=B/N,tl=dleft>0?Math.max(0,(B-sb)/dleft):0;
+ let msg='';
+ if(over)msg='নির্ধারিত সময় শেষ হয়েছে';
+ else if(elapsed>0){const v=rd(planned*elapsed-sb);msg=v<0?`⚠ এ পর্যন্ত ${money(-v)} বেশি খরচ হয়েছে – তাই দৈনিক সীমা ${money(rd(planned))} থেকে কমে ${money(rd(tl))} হয়েছে`:v>0?`✓ এ পর্যন্ত ${money(v)} বাঁচিয়েছেন – দৈনিক সীমা বেড়ে ${money(rd(tl))}`:'✓ ঠিক পথে আছেন'}
+ else msg=`শুরু থেকে প্রতিদিন ${money(rd(planned))} করে`;
+ $('y-daily').innerHTML=!c.base?'<small>শুরু করতে</small><b style="font-size:21px;margin:6px 0">বেতন বা হাতের টাকা লিখুন</b><small>তারপর ফিক্সড টিক দিন, দেনা-পাওনা মিলিয়ে নিন – বাকি সব নিজে নিজে হিসাব হবে</small>'
+ :B<=0?'<small>দৈনিক ব্যবহারের ভাগ এখন ০</small><b style="font-size:20px;margin:6px 0">ফিক্সড/দেনা কমান বা % ঠিক করুন</b><small>“দৈনিক” চিহ্নিত খাতে টাকা থাকলে প্রতিদিনের সীমা দেখাবে</small>'
+ :`<small>${over?'সময় শেষ':'আজকের খরচের সীমা'}</small><b class="big">${money(rd(tl))}</b><div class="ds"><span>আজ খরচ ${money(st0)}</span><span>আজ বাকি ${money(rd(Math.max(0,tl-st0)))}</span><span>📅 ${bn(dleft)} দিন বাকি</span></div><div class="st2 ${msg.startsWith('⚠')?'bad':msg.startsWith('✓')?'ok':''}">${msg}</div><small style="margin-top:6px">“${esc(pl.n.split(' (')[0])}” ভাগ ${money(B)} · মোট খরচ ${money(spent)} · বাকি ${money(rd(B-spent))}</small>`;
+ $('y-chart').innerHTML=B>0?chartSvg(f,N,planned,tl,em,today):'';
+ const xs=[...y.exp].sort((p,q)=>q.d.localeCompare(p.d)||q.id-p.id).slice(0,6);
+ $('y-exp').innerHTML=xs.map(x=>`<div class="er"><span>${fdate(x.d)}${x.n?' · '+esc(x.n):''}</span><span><b>${money(x.a)}</b><button class="x" data-xd="${x.id}" aria-label="মুছুন">✕</button></span></div>`).join('');
+ /* ধাপ */
+ const ln=(t,v,cl,b,sub)=>`<div class="rl${b?' b':''}"><span>${t}${sub?`<small>${sub}</small>`:''}</span><i></i><em class="${cl||''}">${v}</em></div>`;
+ $('y-steps').innerHTML=c.base?ln(c.cash>0?'এখন হাতে আছে':'মাসের বেতন',money(c.base))+ln('− ফিক্সড খরচ',money(c.tf),'m',0,c.F.length?c.F.map(f=>esc(f.n)).join(', '):'টিক নেই')+ln('= ফিক্সড বাদে হাতে থাকে',money(rd(c.base-c.tf)),'',1)+ln('− বাকি দেনা (টিক)',money(c.td),'m',0,c.dp.length?bn(c.dp.length)+' জন':'')+ln('＋ পাবো ধরা (টিক)',money(c.tp),'p',0,c.pp.length?bn(c.pp.length)+' জন':'')+ln('= বণ্টনযোগ্য টাকা',(c.rem<0?'−':'')+money(Math.abs(c.rem)),c.rem<0?'m':'p',1):'<div class="empty">বেতন বা হাতের টাকা লিখলে ধাপে ধাপে হিসাব এখানে আসবে</div>';
+ /* ফিক্সড */
+ $('y-fx').innerHTML=my.fixed.map((f,i)=>`<div class="fx"><input type="checkbox" data-fk="${f.id}" ${y.sel.includes(f.id)?'checked':''} aria-label="ফিক্সড ধরুন"><input class="fn" data-fi="${i}" data-ff="n" value="${esc(f.n)}"><input class="fa" data-fi="${i}" data-ff="a" type="number" inputmode="decimal" min="0" step="any" value="${f.a||''}" placeholder="০"><button class="x" data-frm="${i}" aria-label="মুছুন">✕</button><small>ভিত্তির ${pc(+f.a||0)}</small></div>`).join('')||'<div class="empty">কোনো ফিক্সড খরচ নেই</div>';
+ $('y-fs').textContent=c.tf?`${money(c.tf)} (${pc(c.tf)})`:'';
+ const li=(d,ck,k,cl)=>`<label class="crow ${cl}"><input type="checkbox" data-k="${k}" data-id="${d.id}" ${ck?'checked':''}><span class="who"><b>${esc(d.name)}</b><span class="meta">${fdate(d.date)}${d.note?' · '+esc(d.note):''}</span></span><span class="rt"><b class="amt2">${money(d.amount)}</b><small>ভিত্তির ${pc(d.amount)}</small></span></label>`;
+ $('y-dl').innerHTML=c.D.length?c.D.map(d=>li(d,!y.sd.includes(d.id),'sd','dd')).join(''):'<div class="empty"><b>কোনো দেনা বাকি নেই 🎉</b>খাতায় দেবো যোগ করলে এখানে আসবে</div>';
+ $('y-pl').innerHTML=c.P.length?c.P.map(d=>li(d,y.gp.includes(d.id),'gp','pp2')).join(''):'<div class="empty"><b>কারও কাছে পাওনা নেই</b>খাতায় পাবো যোগ করলে এখানে আসবে</div>';
+ $('y-ds').textContent=c.D.length?`ধরা: ${money(c.td)}`:'';$('y-ps').textContent=c.P.length?`ধরা: ${money(c.tp)}`:'';
+ /* বণ্টন */
+ const pf=planAll?a.free:c.free,tot=my.plan.reduce((t,x)=>t+(+x.p||0),0);
+ document.querySelectorAll('#y-sg button').forEach(b=>b.classList.toggle('on',(b.dataset.sc==='all')===planAll));
+ $('y-plan').innerHTML=my.plan.map((x,i)=>`<div class="pr"><div class="l1"><input data-i="${i}" data-f="n" value="${esc(x.n)}" aria-label="খাতের নাম"><input class="pn" data-i="${i}" data-f="p" type="number" inputmode="decimal" min="0" max="100" value="${x.p}" aria-label="শতাংশ"><span>%</span><label class="rd"><input type="radio" name="dr" data-dr="${i}" ${x===pl?'checked':''}>দৈনিক</label>${my.plan.length>1?`<button class="x" data-rm="${i}" aria-label="মুছুন">✕</button>`:''}</div><div class="l2"><div class="pg"><i style="width:${Math.min(100,x.p)}%"></i></div><b>${money(rd(pf*x.p/100))}</b></div></div>`).join('');
  $('y-pt').textContent=`মোট ${bn(tot)}%`;
- $('y-w').className='warn '+(tot===100?'ok':'bad');$('y-w').textContent=tot===100?'✓ ১০০% ঠিক আছে':tot>100?`${bn(rd(tot-100))}% বেশি হয়ে গেছে – কমিয়ে ১০০% করুন`:`${bn(rd(100-tot))}% ভাগ করা হয়নি`;
+ $('y-w').className='warn '+(tot===100?'ok':'bad');$('y-w').textContent=tot===100?`✓ ১০০% ঠিক আছে${planAll?' · সব দেনা শোধ ও পাবো ফেরত এলে':''}`:tot>100?`${bn(rd(tot-100))}% বেশি হয়ে গেছে – কমিয়ে ১০০% করুন`:`${bn(rd(100-tot))}% ভাগ করা হয়নি`;
+ /* পরিশোধিত (সবার নিচে) */
+ const H=[...hist.filter(h=>(h.settledDate||'').startsWith(curM)).map(h=>({n:h.name,a:h.amount,d:h.settledDate,t:h.type})),...debts.flatMap(d=>(d.log||[]).filter(l=>l.k==='-'&&(l.d||'').startsWith(curM)).map(l=>({n:d.name,a:l.a,d:l.d,t:d.type})))].sort((p,q)=>q.d.localeCompare(p.d));
+ const th2=H.filter(h=>h.t==='dibo').reduce((t,h)=>t+h.a,0);
+ $('y-hl').innerHTML=H.length?H.map(h=>`<div class="crow hh"><span class="who"><b>✓ ${esc(h.n)}</b><span class="meta">${fdate(h.d)} · ${h.t==='dibo'?'দিয়েছেন':'পেয়েছেন'}</span></span><span class="rt"><b class="amt2">${money(h.a)}</b></span></div>`).join(''):'<div class="empty">এ মাসে এখনো কিছু পরিশোধ হয়নি</div>';
+ $('y-hs').textContent=th2?`দিয়েছেন ${money(th2)}`:'';
 }
 $('my-prev').onclick=()=>shift(-1);$('my-next').onclick=()=>shift(1);$('my-cur').onclick=()=>{curM=localDate().slice(0,7);renderMy()};
 $('y-sal').onchange=e=>{ey().sal=Math.max(0,parseFloat(e.target.value)||0);save()};
-$('y-cash').onchange=e=>{ey().cash=Math.max(0,parseFloat(e.target.value)||0);save()};
-const tg=(a,id,on)=>{const i=a.indexOf(id);if(on&&i<0)a.push(id);if(!on&&i>-1)a.splice(i,1)};
+$('y-cash').onchange=e=>{ey().cash=e.target.value===''?'':Math.max(0,parseFloat(e.target.value)||0);save()};
+$('y-from').onchange=e=>{ey().from=e.target.value;save()};$('y-end').onchange=e=>{ey().end=e.target.value;save()};
+$('x-add').onclick=()=>{const v=parseFloat($('x-amt').value);if(!(v>0)){toast('খরচের টাকা লিখুন',{err:1});return}
+ ey().exp.push({id:Date.now(),d:$('x-date').value||localDate(),a:v,n:$('x-note').value.trim()});$('x-amt').value='';$('x-note').value='';save();toast('খরচ লেখা হলো ✓')};
+const tg=(arr,id,on)=>{const i=arr.indexOf(id);if(on&&i<0)arr.push(id);if(!on&&i>-1)arr.splice(i,1)};
 $('v-my').addEventListener('change',e=>{const t=e.target,d=t.dataset;
- if(d.k){const m=ey();tg(m[d.k],+d.id,d.k==='sd'?!t.checked:t.checked);save()}
+ if(d.k){tg(ey()[d.k],+d.id,d.k==='sd'?!t.checked:t.checked);save()}
  else if(d.fk){tg(ey().sel,d.fk,t.checked);save()}
  else if(d.ff){const f=my.fixed[+d.fi];f[d.ff]=d.ff==='a'?Math.max(0,parseFloat(t.value)||0):(t.value.trim()||f.n);save()}
  else if(d.dr!==undefined){my.plan.forEach((x,j)=>x.d=j===+d.dr?1:0);save()}
  else if(d.f){const x=my.plan[+d.i];x[d.f]=d.f==='p'?Math.max(0,parseFloat(t.value)||0):(t.value.trim()||x.n);save()}});
-$('v-my').addEventListener('click',e=>{const t=e.target.closest('[data-rm],[data-frm],[data-go]');if(!t)return;
- if(t.dataset.go){e.preventDefault();setMode('khata');setTab(t.dataset.go)}
- else if(t.dataset.rm){my.plan.splice(+t.dataset.rm,1);save()}
- else{my.fixed.splice(+t.dataset.frm,1);save()}});
+$('v-my').addEventListener('click',e=>{const t=e.target.closest('[data-rm],[data-frm],[data-go],[data-sc],[data-xd]');if(!t)return;const d=t.dataset;
+ if(d.go){e.preventDefault();setMode('khata');setTab(d.go)}
+ else if(d.sc){planAll=d.sc==='all';renderMy()}
+ else if(d.xd){const m=ey();m.exp=m.exp.filter(x=>x.id!==+d.xd);save()}
+ else if(d.rm){my.plan.splice(+d.rm,1);save()}
+ else{my.fixed.splice(+d.frm,1);save()}});
 $('y-add').onclick=()=>{if(my.plan.length>=8){toast('সর্বোচ্চ ৮টি খাত',{err:1});return}my.plan.push({n:'নতুন খাত',p:0});save()};
 $('y-fadd').onclick=()=>{my.fixed.push({id:'f'+Date.now(),n:'নতুন খরচ',a:0});save()};
 const _r1=render;render=function(){_r1();renderMy()};
