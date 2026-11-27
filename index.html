@@ -495,7 +495,9 @@ function renderMy(){
  const lp=c.base>0?Math.round(c.rem/c.base*100):0;$('y-bar').style.width=(c.base>0?Math.min(100,Math.max(0,c.rem/c.base*100)):0)+'%';
  $('y-l').textContent=!c.base?'বেতন বা হাতের টাকা লিখুন':c.rem<0?'ঘাটতি! খরচ ও দেনা হাতের টাকার চেয়ে বেশি':`ফিক্সড ও দেনা বাদে ${bn(lp)}% বাকি`;$('y-p').textContent=c.base?bn(lp)+'%':'';
  /* দৈনিক */
- const pl=my.plan.find(x=>x.d)||my.plan[my.plan.length-1],pfB=planAll?Math.max(0,c.b0-c.tf+c.tpAll-c.tdAll):c.b0,B=rd(pfB*(pl.p||0)/100),em={};
+ const pfB=planAll?Math.max(0,c.b0-c.tf+c.tpAll-c.tdAll):c.b0;
+ const lo=Math.max(0,rd(pfB*(100-my.plan.reduce((t,x)=>t+(+x.p||0),0))/100));
+ const pl=my.plan.find(x=>x.d)||my.plan[my.plan.length-1],B=rd(pfB*(pl.p||0)/100+(pl.d?lo:0)),em={};
  const colSpent=n=>sm(y.exp.filter(x=>x.pn===n).map(x=>({amount:x.a})));
  const dx=y.exp.filter(x=>x.pn===pl.n);dx.forEach(x=>em[x.d]=(em[x.d]||0)+x.a);
  const spent=colSpent(pl.n),remDaily=rd(Math.max(0,B-spent)),sb=sm(dx.filter(x=>x.d<today).map(x=>({amount:x.a}))),st0=sm(dx.filter(x=>x.d===today).map(x=>({amount:x.a})));
@@ -519,7 +521,7 @@ function renderMy(){
   /* বণ্টন */
  const pf=planAll?Math.max(0,c.b0-c.tf+c.tpAll-c.tdAll):c.b0,tot=my.plan.reduce((t,x)=>t+(+x.p||0),0);
  document.querySelectorAll('#y-sg button').forEach(b=>b.classList.toggle('on',(b.dataset.sc==='all')===planAll));
- $('y-plan').innerHTML=my.plan.map((x,i)=>`<div class="pr"><div class="l1"><input data-i="${i}" data-f="n" value="${esc(x.n)}" aria-label="খাতের নাম"><input class="pn" data-i="${i}" data-f="p" type="number" inputmode="decimal" step="0.1" min="0" max="100" onwheel="this.blur()" value="${x.p}" aria-label="শতাংশ"><span>%</span><label class="rd"><input type="radio" name="dr" data-dr="${i}" ${x===pl?'checked':''}>দৈনিক</label>${my.plan.length>1?`<button class="x" data-rm="${i}" aria-label="মুছুন">✕</button>`:''}</div><div class="l2"><div class="pg"><i style="width:${Math.min(100,x.p)}%"></i></div><b>${money(rd(Math.max(0,pf*x.p/100-colSpent(x.n))))}</b></div></div>`).join('');
+ $('y-plan').innerHTML=my.plan.map((x,i)=>`<div class="pr"><div class="l1"><input data-i="${i}" data-f="n" value="${esc(x.n)}" aria-label="খাতের নাম"><input class="pn" data-i="${i}" data-f="p" type="number" inputmode="decimal" step="0.1" min="0" max="100" onwheel="this.blur()" value="${x.p}" aria-label="শতাংশ"><span>%</span><label class="rd"><input type="radio" name="dr" data-dr="${i}" ${x===pl?'checked':''}>দৈনিক</label>${my.plan.length>1?`<button class="x" data-rm="${i}" aria-label="মুছুন">✕</button>`:''}</div><div class="l2"><div class="pg"><i style="width:${Math.min(100,x.p)}%"></i></div><b>${money(rd(Math.max(0,pf*x.p/100+(x.d?lo:0)-colSpent(x.n))))}</b></div></div>`).join('');
  $('y-pt').textContent=`মোট ${bn(tot)}%`;
  $('y-w').className='warn '+(tot===100?'ok':'bad');$('y-w').textContent=tot===100?`✓ ১০০% ঠিক আছে${planAll?` · দেনা −${money(c.tdAll)}, পাবো +${money(c.tpAll)} ধরে`:''}`:tot>100?`${bn(rd(tot-100))}% বেশি হয়ে গেছে – কমিয়ে ১০০% করুন`:`${bn(rd(100-tot))}% ভাগ করা হয়নি`;
  /* পরিশোধিত (সবার নিচে) */
